@@ -1,6 +1,5 @@
-package com.mindorks.bootcamp.instagram.ui.login
+package com.mindorks.bootcamp.instagram.ui.login.signUp
 
-import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -16,22 +15,25 @@ import com.mindorks.bootcamp.instagram.R
 import com.mindorks.bootcamp.instagram.di.component.ActivityComponent
 import com.mindorks.bootcamp.instagram.ui.base.BaseActivity
 import com.mindorks.bootcamp.instagram.ui.dummy.DummyActivity
-import com.mindorks.bootcamp.instagram.ui.login.signUp.SignUpActivity
-import com.mindorks.bootcamp.instagram.utils.common.*
+import com.mindorks.bootcamp.instagram.ui.login.LoginActivity
+import com.mindorks.bootcamp.instagram.utils.common.Event
+import com.mindorks.bootcamp.instagram.utils.common.Status
+import com.mindorks.bootcamp.instagram.utils.common.handleClearIcon
+import com.mindorks.bootcamp.instagram.utils.common.setupRightDrawable
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_login.etEmail
 import kotlinx.android.synthetic.main.activity_login.etPassword
-import kotlinx.android.synthetic.main.activity_login.ivLogo
 import kotlinx.android.synthetic.main.activity_login.layoutEmail
 import kotlinx.android.synthetic.main.activity_login.layoutPassword
 import kotlinx.android.synthetic.main.activity_login.pbLoading
 import kotlinx.android.synthetic.main.activity_signup.*
+import kotlinx.android.synthetic.main.activity_signup.ivLogo
 
-class LoginActivity : BaseActivity<LoginViewModel>() {
+class SignUpActivity : BaseActivity<SignUpViewModel>() {
 
     private var shouldFinish = false
 
-    override fun provideLayoutId(): Int = R.layout.activity_login
+    override fun provideLayoutId(): Int = R.layout.activity_signup
 
     override fun injectDependencies(activityComponent: ActivityComponent) {
         activityComponent.inject(this)
@@ -51,9 +53,76 @@ class LoginActivity : BaseActivity<LoginViewModel>() {
         etEmail.transitionName = null
     }
 
+    override fun setupView(savedInstanceState: Bundle?) {
+        val clearIcon = ContextCompat.getDrawable(this, R.drawable.ic_cancel)
+
+        etEmail.setupRightDrawable(clearIcon) { viewModel.emailField.postValue("") }
+        etEmail.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {}
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+            override fun onTextChanged(p0: CharSequence, p1: Int, p2: Int, p3: Int) {
+                etEmail.handleClearIcon(p0.toString(), clearIcon)
+                viewModel.onEmailChanged(p0.toString())
+            }
+        })
+
+        etPassword.setupRightDrawable(clearIcon) { viewModel.passwordField.postValue("") }
+        etPassword.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {}
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+            override fun onTextChanged(p0: CharSequence, p1: Int, p2: Int, p3: Int) {
+                etPassword.handleClearIcon(p0.toString(), clearIcon)
+                viewModel.onPasswordChanged(p0.toString())
+            }
+        })
+
+        etName.setupRightDrawable(clearIcon) { viewModel.nameField.postValue("") }
+        etName.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {}
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+            override fun onTextChanged(p0: CharSequence, p1: Int, p2: Int, p3: Int) {
+                etName.handleClearIcon(p0.toString(), clearIcon)
+                viewModel.onNameChanged(p0.toString())
+            }
+        })
+
+        btnSignUp.setOnClickListener { viewModel.onSignUp() }
+
+        val launchLogin = Event<Map<String, View>>(
+            mapOf(
+                getString(R.string.shared_element_app_logo) to ivLogo,
+                getString(R.string.shared_element_email) to etEmail,
+                getString(R.string.shared_element_password) to etPassword
+            )
+        )
+        tvLoginEmail.setOnClickListener {
+            launchLogin.getIfNotHandled()?.run {
+
+                val sharedElements = this.map {
+                    Pair.create(it.value,it.key)
+                }.toTypedArray()
+
+                val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                    this@SignUpActivity,
+                    *sharedElements
+                )
+                startActivity(
+                    Intent(this@SignUpActivity, LoginActivity::class.java),
+                    options.toBundle()
+                )
+                shouldFinish = true
+            }
+        }
+    }
+
     override fun setupObservers() {
         super.setupObservers()
-
         viewModel.launchDummy.observe(this, Observer {
             it.getIfNotHandled()?.run {
                 startActivity(Intent(applicationContext, DummyActivity::class.java))
@@ -86,65 +155,8 @@ class LoginActivity : BaseActivity<LoginViewModel>() {
             if (etEmail.text.toString() != it) etEmail.setText(it)
         })
 
-    }
-
-    override fun setupView(savedInstanceState: Bundle?) {
-
-        val clearIcon = ContextCompat.getDrawable(this, R.drawable.ic_cancel)
-
-        etEmail.setupRightDrawable(clearIcon) { viewModel.emailField.postValue("") }
-        etEmail.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(p0: Editable?) {}
-
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-
-            override fun onTextChanged(p0: CharSequence, p1: Int, p2: Int, p3: Int) {
-                etEmail.handleClearIcon(p0.toString(), clearIcon)
-                viewModel.onEmailChanged(p0.toString())
-            }
+        viewModel.nameField.observe(this, Observer {
+            if (etName.text.toString() != it) etName.setText(it)
         })
-
-        etPassword.setupRightDrawable(clearIcon) { viewModel.passwordField.postValue("") }
-        etPassword.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(p0: Editable?) {}
-
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-
-            override fun onTextChanged(p0: CharSequence, p1: Int, p2: Int, p3: Int) {
-                etPassword.handleClearIcon(p0.toString(), clearIcon)
-                viewModel.onPasswordChanged(p0.toString())
-            }
-        })
-
-        btnLogin.setOnClickListener { viewModel.onLogin() }
-
-        val launchSignUp = Event<Map<String, View>>(
-            mapOf(
-                getString(R.string.shared_element_app_logo) to ivLogo,
-                getString(R.string.shared_element_email) to etEmail,
-                getString(R.string.shared_element_password) to etPassword
-            )
-        )
-
-        tvSignUpEmail.setOnClickListener {
-            launchSignUp.getIfNotHandled()?.run {
-
-                val sharedElements = this.map {
-                    Pair.create(it.value,it.key)
-                }.toTypedArray()
-
-                val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                    this@LoginActivity,
-                    *sharedElements
-                )
-                startActivity(
-                    Intent(this@LoginActivity, SignUpActivity::class.java),
-                    options.toBundle()
-                )
-                shouldFinish = true
-            }
-        }
     }
-
-
 }
