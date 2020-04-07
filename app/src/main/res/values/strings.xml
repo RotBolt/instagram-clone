@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Instagram Project</string>
+
+    <string name="network_connection_error">Internet connection lost, please retry again</string>
+    <string name="network_default_error">Something wrong happened, please retry again</string>
+    <string name="network_internal_error">Our systems got an error, please retry again</string>
+    <string name="network_server_not_available">Our services are under maintenance, please retry after some time
+    </string>
+    <string name="server_connection_error">Not able to connect, please retry again</string>
+    <string name="network_login_again">Please log in again</string>
+    <!--Login-->
+    <string name="email_hint">Enter your email</string>
+    <string name="password_hint">Enter your Password</string>
+    <string name="login_label">Login</string>
+    <string name="email_field_empty">Email can\'t be empty</string>
+    <string name="password_field_empty">Password can\'t be empty</string>
+    <string name="email_field_invalid">Not a valid email</string>
+    <string name="password_field_small_length">Password less than 6 digits</string>
+</resources>
