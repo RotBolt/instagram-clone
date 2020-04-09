@@ -1,14 +1,11 @@
 package com.mindorks.bootcamp.instagram.ui.login
 
-import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import androidx.core.app.ActivityCompat
 import androidx.core.app.ActivityOptionsCompat
-import androidx.core.app.SharedElementCallback
 import androidx.core.content.ContextCompat
 import androidx.core.util.Pair
 import androidx.lifecycle.Observer
@@ -17,15 +14,11 @@ import com.mindorks.bootcamp.instagram.di.component.ActivityComponent
 import com.mindorks.bootcamp.instagram.ui.base.BaseActivity
 import com.mindorks.bootcamp.instagram.ui.dummy.DummyActivity
 import com.mindorks.bootcamp.instagram.ui.login.signUp.SignUpActivity
-import com.mindorks.bootcamp.instagram.utils.common.*
+import com.mindorks.bootcamp.instagram.utils.common.Event
+import com.mindorks.bootcamp.instagram.utils.common.Status
+import com.mindorks.bootcamp.instagram.utils.common.handleClearIcon
+import com.mindorks.bootcamp.instagram.utils.common.setupRightDrawable
 import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.android.synthetic.main.activity_login.etEmail
-import kotlinx.android.synthetic.main.activity_login.etPassword
-import kotlinx.android.synthetic.main.activity_login.ivLogo
-import kotlinx.android.synthetic.main.activity_login.layoutEmail
-import kotlinx.android.synthetic.main.activity_login.layoutPassword
-import kotlinx.android.synthetic.main.activity_login.pbLoading
-import kotlinx.android.synthetic.main.activity_signup.*
 
 class LoginActivity : BaseActivity<LoginViewModel>() {
 
@@ -44,11 +37,9 @@ class LoginActivity : BaseActivity<LoginViewModel>() {
         }
     }
 
-    override fun onEnterAnimationComplete() {
-        super.onEnterAnimationComplete()
-        ivLogo.transitionName = null
-        etPassword.transitionName = null
-        etEmail.transitionName = null
+    override fun onBackPressed() {
+        super.onBackPressed()
+        this.finishAffinity()
     }
 
     override fun setupObservers() {

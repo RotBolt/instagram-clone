@@ -5,9 +5,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import androidx.core.app.ActivityCompat
 import androidx.core.app.ActivityOptionsCompat
-import androidx.core.app.SharedElementCallback
 import androidx.core.content.ContextCompat
 import androidx.core.util.Pair
 import androidx.lifecycle.Observer
@@ -46,11 +44,9 @@ class SignUpActivity : BaseActivity<SignUpViewModel>() {
         }
     }
 
-    override fun onEnterAnimationComplete() {
-        super.onEnterAnimationComplete()
-        ivLogo.transitionName = null
-        etPassword.transitionName = null
-        etEmail.transitionName = null
+    override fun onBackPressed() {
+        super.onBackPressed()
+        this.finishAffinity()
     }
 
     override fun setupView(savedInstanceState: Bundle?) {
