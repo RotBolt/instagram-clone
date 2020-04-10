@@ -12,13 +12,12 @@ import androidx.lifecycle.Observer
 import com.mindorks.bootcamp.instagram.R
 import com.mindorks.bootcamp.instagram.di.component.ActivityComponent
 import com.mindorks.bootcamp.instagram.ui.base.BaseActivity
-import com.mindorks.bootcamp.instagram.ui.dummy.DummyActivity
 import com.mindorks.bootcamp.instagram.ui.login.LoginActivity
+import com.mindorks.bootcamp.instagram.ui.main.MainActivity
 import com.mindorks.bootcamp.instagram.utils.common.Event
 import com.mindorks.bootcamp.instagram.utils.common.Status
 import com.mindorks.bootcamp.instagram.utils.common.handleClearIcon
 import com.mindorks.bootcamp.instagram.utils.common.setupRightDrawable
-import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_login.etEmail
 import kotlinx.android.synthetic.main.activity_login.etPassword
 import kotlinx.android.synthetic.main.activity_login.layoutEmail
@@ -52,7 +51,7 @@ class SignUpActivity : BaseActivity<SignUpViewModel>() {
     override fun setupView(savedInstanceState: Bundle?) {
         val clearIcon = ContextCompat.getDrawable(this, R.drawable.ic_cancel)
 
-        etEmail.setupRightDrawable(clearIcon) { viewModel.emailField.postValue("") }
+        etEmail.setupRightDrawable(clearIcon) { viewModel.onResetEmailField() }
         etEmail.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {}
 
@@ -64,7 +63,7 @@ class SignUpActivity : BaseActivity<SignUpViewModel>() {
             }
         })
 
-        etPassword.setupRightDrawable(clearIcon) { viewModel.passwordField.postValue("") }
+        etPassword.setupRightDrawable(clearIcon) { viewModel.onResetPasswordField() }
         etPassword.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {}
 
@@ -76,7 +75,7 @@ class SignUpActivity : BaseActivity<SignUpViewModel>() {
             }
         })
 
-        etName.setupRightDrawable(clearIcon) { viewModel.nameField.postValue("") }
+        etName.setupRightDrawable(clearIcon) { viewModel.onResetNameField() }
         etName.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {}
 
@@ -119,9 +118,9 @@ class SignUpActivity : BaseActivity<SignUpViewModel>() {
 
     override fun setupObservers() {
         super.setupObservers()
-        viewModel.launchDummy.observe(this, Observer {
+        viewModel.launchMain.observe(this, Observer {
             it.getIfNotHandled()?.run {
-                startActivity(Intent(applicationContext, DummyActivity::class.java))
+                startActivity(Intent(applicationContext, MainActivity::class.java))
                 finish()
             }
         })

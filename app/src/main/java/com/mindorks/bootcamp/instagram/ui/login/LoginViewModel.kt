@@ -1,10 +1,8 @@
 package com.mindorks.bootcamp.instagram.ui.login
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
-import com.mindorks.bootcamp.instagram.data.model.User
 import com.mindorks.bootcamp.instagram.data.repository.UserRepository
 import com.mindorks.bootcamp.instagram.ui.base.BaseViewModel
 import com.mindorks.bootcamp.instagram.utils.common.Event
@@ -12,11 +10,9 @@ import com.mindorks.bootcamp.instagram.utils.common.Resource
 import com.mindorks.bootcamp.instagram.utils.common.Status
 import com.mindorks.bootcamp.instagram.utils.common.Validator
 import com.mindorks.bootcamp.instagram.utils.network.NetworkHelper
-import com.mindorks.bootcamp.instagram.utils.rx.RxSchedulerProvider
 import io.reactivex.disposables.CompositeDisposable
 import com.mindorks.bootcamp.instagram.utils.common.Validator.Validation.Field
 import com.mindorks.bootcamp.instagram.utils.rx.SchedulerProvider
-import timber.log.Timber
 
 class LoginViewModel(
     schedulerProvider: SchedulerProvider,
@@ -27,7 +23,7 @@ class LoginViewModel(
 
     private val validationResult = MutableLiveData<Validator.ValidationResult>()
 
-    val launchDummy: MutableLiveData<Event<Map<String, String>>> = MutableLiveData()
+    val launchMain: MutableLiveData<Event<Map<String, String>>> = MutableLiveData()
 
     val emailField: MutableLiveData<String> = MutableLiveData()
     val passwordField: MutableLiveData<String> = MutableLiveData()
@@ -52,6 +48,11 @@ class LoginViewModel(
 
     fun onPasswordChanged(email: String) = passwordField.postValue(email)
 
+    fun onResetEmailField() = emailField.postValue("")
+
+    fun onResetPasswordField() = passwordField.postValue("")
+
+
     fun onLogin() {
         val email = emailField.value
         val password = passwordField.value
@@ -75,7 +76,7 @@ class LoginViewModel(
                     .subscribe({
                         userRepository.saveCurrentUser(it)
                         loggingIn.postValue(false)
-                        launchDummy.postValue(Event(emptyMap()))
+                        launchMain.postValue(Event(emptyMap()))
                     },{
                         handleNetworkError(it)
                         loggingIn.postValue(false)

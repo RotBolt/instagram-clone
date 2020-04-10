@@ -24,8 +24,16 @@
     <string name="login_email_label">Login with Email</string>
 
 
+<!--    Shared Element Transition-->
     <string name="shared_element_app_logo">appLogo</string>
     <string name="shared_element_name">name_field</string>
     <string name="shared_element_email">email_field</string>
     <string name="shared_element_password">password_field</string>
+
+
+<!--    Menu-->
+    <string name="menu_home">Home</string>
+    <string name="menu_photo">Photo</string>
+    <string name="menu_profile">Profile</string>
+
 </resources>

@@ -22,7 +22,7 @@ class SignUpViewModel(
 
     private val validationResult = MutableLiveData<Validator.ValidationResult>()
 
-    val launchDummy: MutableLiveData<Event<Map<String, String>>> = MutableLiveData()
+    val launchMain: MutableLiveData<Event<Map<String, String>>> = MutableLiveData()
 
     val emailField = MutableLiveData<String>()
     val passwordField = MutableLiveData<String>()
@@ -51,6 +51,13 @@ class SignUpViewModel(
 
     fun onNameChanged(name: String) = nameField.postValue(name)
 
+
+    fun onResetEmailField() = emailField.postValue("")
+
+    fun onResetPasswordField() = passwordField.postValue("")
+
+    fun onResetNameField() = nameField.postValue("")
+
     fun onSignUp() {
         val email = emailField.value
         val password = passwordField.value
@@ -76,7 +83,7 @@ class SignUpViewModel(
                     .subscribe({
                         userRepository.saveCurrentUser(it)
                         loggingIn.postValue(false)
-                        launchDummy.postValue(Event(emptyMap()))
+                        launchMain.postValue(Event(emptyMap()))
                     },{
                         handleNetworkError(it)
                         loggingIn.postValue(false)
