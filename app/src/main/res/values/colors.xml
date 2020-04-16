@@ -8,4 +8,5 @@
     <color name="white">#ffffff</color>
     <color name="colorStatus">#F7F7F7</color>
     <color name="colorGreyLight">#AAAAAA</color>
+    <color name="grey">#999999</color>
 </resources>
