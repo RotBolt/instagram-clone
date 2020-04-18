@@ -10,10 +10,14 @@ import com.mindorks.bootcamp.instagram.ui.home.HomeFragment
 import com.mindorks.bootcamp.instagram.ui.photo.PhotoFragment
 import com.mindorks.bootcamp.instagram.ui.profile.ProfileFragment
 import kotlinx.android.synthetic.main.activity_main.*
+import javax.inject.Inject
 
 class MainActivity : BaseActivity<MainViewModel>() {
 
     private var activeFragment: Fragment? = null
+
+    @Inject
+    lateinit var mainSharedViewModel: MainSharedViewModel
 
     override fun provideLayoutId(): Int = R.layout.activity_main
 
@@ -25,7 +29,7 @@ class MainActivity : BaseActivity<MainViewModel>() {
         bottomNavView.run {
             itemIconTintList = null
             setOnNavigationItemSelectedListener {
-                when(it.itemId){
+                when (it.itemId) {
                     R.id.itemHome -> {
                         viewModel.onHomeSelected()
                         true
@@ -47,7 +51,7 @@ class MainActivity : BaseActivity<MainViewModel>() {
     override fun setupObservers() {
         super.setupObservers()
         viewModel.homeNavigation.observe(this, Observer {
-            it.getIfNotHandled()?.run {showHome()}
+            it.getIfNotHandled()?.run { showHome() }
         })
 
         viewModel.photoNavigation.observe(this, Observer {
@@ -56,6 +60,12 @@ class MainActivity : BaseActivity<MainViewModel>() {
 
         viewModel.profileNavigation.observe(this, Observer {
             it.getIfNotHandled()?.run { showProfile() }
+        })
+
+        mainSharedViewModel.homeRedirection.observe(this, Observer {
+            it.getIfNotHandled()?.run {
+                bottomNavView.selectedItemId = R.id.itemHome
+            }
         })
     }
 
@@ -85,7 +95,8 @@ class MainActivity : BaseActivity<MainViewModel>() {
 
         val fragmentTransaction = supportFragmentManager.beginTransaction()
 
-        var fragment = supportFragmentManager.findFragmentByTag(ProfileFragment.TAG) as ProfileFragment?
+        var fragment =
+            supportFragmentManager.findFragmentByTag(ProfileFragment.TAG) as ProfileFragment?
 
         if (fragment == null) {
             fragment = ProfileFragment.newInstance()

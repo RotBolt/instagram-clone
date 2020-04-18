@@ -8,11 +8,13 @@ import com.mindorks.bootcamp.instagram.data.local.db.DatabaseService
 import com.mindorks.bootcamp.instagram.data.remote.NetworkService
 import com.mindorks.bootcamp.instagram.data.repository.UserRepository
 import com.mindorks.bootcamp.instagram.di.ApplicationContext
+import com.mindorks.bootcamp.instagram.di.TempDirectory
 import com.mindorks.bootcamp.instagram.di.module.ApplicationModule
 import com.mindorks.bootcamp.instagram.utils.network.NetworkHelper
 import com.mindorks.bootcamp.instagram.utils.rx.SchedulerProvider
 import dagger.Component
 import io.reactivex.disposables.CompositeDisposable
+import java.io.File
 import javax.inject.Singleton
 
 
@@ -53,9 +55,14 @@ interface ApplicationComponent {
      * So, Dagger will be able to create an instance of UserRepository by its own using constructor injection
      *---------------------------------------------------------------------------------
      */
+    // Since UserRepository & UserPreferences are scoped with Singleton ,
+    // have to make the accessor function in Application Component
     fun getUserRepository(): UserRepository
 
     fun getSchedulerProvider(): SchedulerProvider
 
     fun getCompositeDisposable(): CompositeDisposable
+
+    @TempDirectory
+    fun getTemporaryDirectory() : File
 }

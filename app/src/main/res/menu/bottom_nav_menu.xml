@@ -7,17 +7,19 @@
         android:titleCondensed="@string/menu_home"
         android:icon="@drawable/selector_home"
         app:showAsAction="always"/>
-    <item
-        android:id="@+id/itemProfile"
-        android:title="@string/menu_profile"
-        android:titleCondensed="@string/menu_profile"
-        android:icon="@drawable/selector_profile"
-        app:showAsAction="always"/>
+
     <item
         android:id="@+id/itemPhoto"
         android:title="@string/menu_photo"
         android:titleCondensed="@string/menu_photo"
         android:icon="@drawable/selector_add_photos"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/itemProfile"
+        android:title="@string/menu_profile"
+        android:titleCondensed="@string/menu_profile"
+        android:icon="@drawable/selector_profile"
         app:showAsAction="always"/>
 
 </menu>
