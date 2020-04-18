@@ -97,6 +97,9 @@ dependencies {
     // Parser
     implementation "com.google.code.gson:gson:$gson_version"
 
+    // Camera
+    implementation 'com.mindorks:paracamera:0.2.2'
+
     // Debugging
     debugImplementation "com.amitshekhar.android:debug-db:$debug_db_version"
 

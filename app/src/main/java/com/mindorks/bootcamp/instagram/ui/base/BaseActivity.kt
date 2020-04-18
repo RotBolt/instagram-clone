@@ -9,6 +9,7 @@ import com.mindorks.bootcamp.instagram.InstagramApplication
 import com.mindorks.bootcamp.instagram.di.component.ActivityComponent
 import com.mindorks.bootcamp.instagram.di.component.DaggerActivityComponent
 import com.mindorks.bootcamp.instagram.di.module.ActivityModule
+import com.mindorks.bootcamp.instagram.utils.display.ScreenUtils
 import com.mindorks.bootcamp.instagram.utils.display.Toaster
 import javax.inject.Inject
 
@@ -22,9 +23,10 @@ abstract class BaseActivity<VM : BaseViewModel> : AppCompatActivity() {
     lateinit var viewModel: VM
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        injectDependencies(buildActivityComponent())
         super.onCreate(savedInstanceState)
         setContentView(provideLayoutId())
-        injectDependencies(buildActivityComponent())
+        ScreenUtils.setLightDisplayStatusBar(this)
         setupObservers()
         setupView(savedInstanceState)
         viewModel.onCreate()

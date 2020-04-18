@@ -1,11 +1,9 @@
 package com.mindorks.bootcamp.instagram.data.remote
 
-import com.mindorks.bootcamp.instagram.data.remote.request.DummyRequest
-import com.mindorks.bootcamp.instagram.data.remote.request.LoginRequest
-import com.mindorks.bootcamp.instagram.data.remote.request.PostLikedModifyRequest
-import com.mindorks.bootcamp.instagram.data.remote.request.SignUpRequest
+import com.mindorks.bootcamp.instagram.data.remote.request.*
 import com.mindorks.bootcamp.instagram.data.remote.response.*
 import io.reactivex.Single
+import okhttp3.MultipartBody
 import retrofit2.http.*
 import javax.inject.Singleton
 
@@ -45,28 +43,43 @@ interface NetworkService {
 
     @GET(Endpoints.HOME_POST_LIST)
     fun doHomePostListCall(
-        @Query("firstPostId") firstPostId:String?,
-        @Query("lastPostId") lastPostId:String?,
-        @Header(Networking.HEADER_USER_ID) userId:String,
-        @Header(Networking.HEADER_ACCESS_TOKEN) accessToken:String,
+        @Query("firstPostId") firstPostId: String?,
+        @Query("lastPostId") lastPostId: String?,
+        @Header(Networking.HEADER_USER_ID) userId: String,
+        @Header(Networking.HEADER_ACCESS_TOKEN) accessToken: String,
         @Header(Networking.HEADER_API_KEY) apiKey: String = Networking.API_KEY
-    ):Single<PostListResponse>
+    ): Single<PostListResponse>
 
     @PUT(Endpoints.POST_LIKE)
     fun doPostLikeCall(
-        @Body request:PostLikedModifyRequest,
-        @Header(Networking.HEADER_USER_ID) userId:String,
-        @Header(Networking.HEADER_ACCESS_TOKEN) accessToken:String,
+        @Body request: PostLikedModifyRequest,
+        @Header(Networking.HEADER_USER_ID) userId: String,
+        @Header(Networking.HEADER_ACCESS_TOKEN) accessToken: String,
         @Header(Networking.HEADER_API_KEY) apiKey: String = Networking.API_KEY
-    ):Single<GeneralResponse>
+    ): Single<GeneralResponse>
 
     @PUT(Endpoints.POST_UNLIKE)
     fun doPostUnlikeCall(
-        @Body request:PostLikedModifyRequest,
-        @Header(Networking.HEADER_USER_ID) userId:String,
-        @Header(Networking.HEADER_ACCESS_TOKEN) accessToken:String,
+        @Body request: PostLikedModifyRequest,
+        @Header(Networking.HEADER_USER_ID) userId: String,
+        @Header(Networking.HEADER_ACCESS_TOKEN) accessToken: String,
         @Header(Networking.HEADER_API_KEY) apiKey: String = Networking.API_KEY
-    ):Single<GeneralResponse>
+    ): Single<GeneralResponse>
 
+    @Multipart
+    @POST(Endpoints.UPLOAD_IMAGE)
+    fun doImageUploadCall(
+        @Part image: MultipartBody.Part,
+        @Header(Networking.HEADER_USER_ID) userId: String,
+        @Header(Networking.HEADER_ACCESS_TOKEN) accessToken: String,
+        @Header(Networking.HEADER_API_KEY) apiKey: String = Networking.API_KEY
+    ): Single<ImageResponse>
 
+    @POST(Endpoints.CREATE_POST)
+    fun doPostCreateCall(
+        @Body request: PostCreationRequest,
+        @Header(Networking.HEADER_USER_ID) userId: String,
+        @Header(Networking.HEADER_ACCESS_TOKEN) accessToken: String,
+        @Header(Networking.HEADER_API_KEY) apiKey: String = Networking.API_KEY
+    ): Single<PostCreationResponse>
 }
