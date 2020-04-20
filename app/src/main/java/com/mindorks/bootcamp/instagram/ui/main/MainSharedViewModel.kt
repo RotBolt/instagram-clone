@@ -8,18 +8,23 @@ import com.mindorks.bootcamp.instagram.utils.network.NetworkHelper
 import com.mindorks.bootcamp.instagram.utils.rx.SchedulerProvider
 import io.reactivex.disposables.CompositeDisposable
 
-class MainSharedViewModel (
+class MainSharedViewModel(
     schedulerProvider: SchedulerProvider,
     compositeDisposable: CompositeDisposable,
     networkHelper: NetworkHelper
-) : BaseViewModel(schedulerProvider, compositeDisposable, networkHelper){
+) : BaseViewModel(schedulerProvider, compositeDisposable, networkHelper) {
 
     val homeRedirection = MutableLiveData<Event<Boolean>>()
+    val logoutRedirection = MutableLiveData<Event<Boolean>>()
     val newPost = MutableLiveData<Event<Post>>()
 
     override fun onCreate() {}
 
-    fun onHomeRedirection(){
+    fun onHomeRedirection() {
         homeRedirection.postValue(Event(true))
+    }
+
+    fun onLogoutRedirection(){
+        logoutRedirection.postValue(Event(true))
     }
 }

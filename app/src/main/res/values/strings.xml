@@ -44,4 +44,10 @@
     <string name="gallery">Gallery</string>
     <string name="try_again">Please try again</string>
     <string name="add_image_label">Add an image</string>
+
+<!--    Profile-->
+    <string name="logout_label">Logout</string>
+    <string name="post_count_label">%1d Posts</string>
+    <string name="edit_profile_label">Edit Profile</string>
+    <string name="my_posts_label">My Posts</string>
 </resources>

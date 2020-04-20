@@ -1,5 +1,6 @@
 package com.mindorks.bootcamp.instagram.ui.main
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -9,6 +10,7 @@ import com.mindorks.bootcamp.instagram.ui.base.BaseActivity
 import com.mindorks.bootcamp.instagram.ui.home.HomeFragment
 import com.mindorks.bootcamp.instagram.ui.photo.PhotoFragment
 import com.mindorks.bootcamp.instagram.ui.profile.ProfileFragment
+import com.mindorks.bootcamp.instagram.ui.splash.SplashActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
@@ -65,6 +67,13 @@ class MainActivity : BaseActivity<MainViewModel>() {
         mainSharedViewModel.homeRedirection.observe(this, Observer {
             it.getIfNotHandled()?.run {
                 bottomNavView.selectedItemId = R.id.itemHome
+            }
+        })
+
+        mainSharedViewModel.logoutRedirection.observe(this, Observer {
+            it.getIfNotHandled()?.run {
+                startActivity(Intent(this@MainActivity, SplashActivity::class.java))
+                finish()
             }
         })
     }

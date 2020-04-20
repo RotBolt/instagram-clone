@@ -6,6 +6,7 @@ import com.mindorks.bootcamp.instagram.data.model.User
 import com.mindorks.bootcamp.instagram.data.remote.NetworkService
 import com.mindorks.bootcamp.instagram.data.remote.request.PostCreationRequest
 import com.mindorks.bootcamp.instagram.data.remote.request.PostLikedModifyRequest
+import com.mindorks.bootcamp.instagram.data.remote.response.MyPostListResponse
 import io.reactivex.Single
 import javax.inject.Inject
 
@@ -82,4 +83,8 @@ class PostRepository @Inject constructor(
                 )
             }
         }
+
+    fun fetchMyPostList(user: User): Single<List<MyPostListResponse.MyPost>> =
+        networkService.doFetchMyPosts(user.id, user.accessToken)
+            .map { it.data }
 }
