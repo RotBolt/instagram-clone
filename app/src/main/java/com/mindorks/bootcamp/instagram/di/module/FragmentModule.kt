@@ -1,6 +1,7 @@
 package com.mindorks.bootcamp.instagram.di.module
 
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mindorks.bootcamp.instagram.data.repository.DummyRepository
 import com.mindorks.bootcamp.instagram.data.repository.PhotoRepository
@@ -15,6 +16,7 @@ import com.mindorks.bootcamp.instagram.ui.home.posts.PostAdapter
 import com.mindorks.bootcamp.instagram.ui.main.MainSharedViewModel
 import com.mindorks.bootcamp.instagram.ui.photo.PhotoViewModel
 import com.mindorks.bootcamp.instagram.ui.profile.ProfileViewModel
+import com.mindorks.bootcamp.instagram.ui.profile.myPosts.MyPostsAdapter
 import com.mindorks.bootcamp.instagram.utils.ViewModelProviderFactory
 import com.mindorks.bootcamp.instagram.utils.network.NetworkHelper
 import com.mindorks.bootcamp.instagram.utils.rx.SchedulerProvider
@@ -32,6 +34,9 @@ class FragmentModule(private val fragment: BaseFragment<*>) {
     fun provideLinearLayoutManager(): LinearLayoutManager = LinearLayoutManager(fragment.context)
 
     @Provides
+    fun provideGridLayoutManager(): GridLayoutManager = GridLayoutManager(fragment.context, 3)
+
+    @Provides
     fun provideDummiesAdapter() = DummiesAdapter(fragment.lifecycle, ArrayList())
 
     @Provides
@@ -43,13 +48,21 @@ class FragmentModule(private val fragment: BaseFragment<*>) {
     ): DummiesViewModel =
         ViewModelProviders.of(fragment,
             ViewModelProviderFactory(DummiesViewModel::class) {
-                DummiesViewModel(schedulerProvider, compositeDisposable, networkHelper, dummyRepository)
+                DummiesViewModel(
+                    schedulerProvider,
+                    compositeDisposable,
+                    networkHelper,
+                    dummyRepository
+                )
             }
         ).get(DummiesViewModel::class.java)
 
 
     @Provides
     fun providePostAdapter() = PostAdapter(fragment.lifecycle, ArrayList())
+
+    @Provides
+    fun provideMyPostAdapter() = MyPostsAdapter(fragment.lifecycle, ArrayList())
 
     @Provides
     fun provideHomeViewModel(
@@ -78,7 +91,7 @@ class FragmentModule(private val fragment: BaseFragment<*>) {
     ): PhotoViewModel = ViewModelProviders.of(
         fragment, ViewModelProviderFactory(PhotoViewModel::class) {
             PhotoViewModel(
-                schedulerProvider, compositeDisposable,networkHelper,
+                schedulerProvider, compositeDisposable, networkHelper,
                 userRepository, postRepository, photoRepository, directory
             )
         }).get(PhotoViewModel::class.java)
@@ -87,10 +100,18 @@ class FragmentModule(private val fragment: BaseFragment<*>) {
     fun provideProfileViewModel(
         schedulerProvider: SchedulerProvider,
         compositeDisposable: CompositeDisposable,
-        networkHelper: NetworkHelper
+        networkHelper: NetworkHelper,
+        userRepository: UserRepository,
+        postRepository: PostRepository
     ): ProfileViewModel = ViewModelProviders.of(
         fragment, ViewModelProviderFactory(ProfileViewModel::class) {
-            ProfileViewModel(schedulerProvider, compositeDisposable, networkHelper)
+            ProfileViewModel(
+                schedulerProvider,
+                compositeDisposable,
+                networkHelper,
+                userRepository,
+                postRepository
+            )
         }).get(ProfileViewModel::class.java)
 
     @Provides

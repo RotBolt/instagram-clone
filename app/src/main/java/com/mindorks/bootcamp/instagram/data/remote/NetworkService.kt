@@ -82,4 +82,33 @@ interface NetworkService {
         @Header(Networking.HEADER_ACCESS_TOKEN) accessToken: String,
         @Header(Networking.HEADER_API_KEY) apiKey: String = Networking.API_KEY
     ): Single<PostCreationResponse>
+
+    @GET(Endpoints.USERINFO)
+    fun doFetchUserInfoCall(
+        @Header(Networking.HEADER_USER_ID) userId: String,
+        @Header(Networking.HEADER_ACCESS_TOKEN) accessToken: String,
+        @Header(Networking.HEADER_API_KEY) apiKey: String = Networking.API_KEY
+    ): Single<UserInfoResponse>
+
+    @DELETE(Endpoints.LOGOUT)
+    fun doLogOutCall(
+        @Header(Networking.HEADER_USER_ID) userId: String,
+        @Header(Networking.HEADER_ACCESS_TOKEN) accessToken: String,
+        @Header(Networking.HEADER_API_KEY) apiKey: String = Networking.API_KEY
+    ): Single<GeneralResponse>
+
+    @GET(Endpoints.MY_POSTS)
+    fun doFetchMyPostsCall(
+        @Header(Networking.HEADER_USER_ID) userId: String,
+        @Header(Networking.HEADER_ACCESS_TOKEN) accessToken: String,
+        @Header(Networking.HEADER_API_KEY) apiKey: String = Networking.API_KEY
+    ): Single<MyPostListResponse>
+
+    @PUT(Endpoints.USERINFO)
+    fun doUpdateUserInfoCall(
+        @Body updateInfoBody: UpdateInfoRequest,
+        @Header(Networking.HEADER_USER_ID) userId: String,
+        @Header(Networking.HEADER_ACCESS_TOKEN) accessToken: String,
+        @Header(Networking.HEADER_API_KEY) apiKey: String = Networking.API_KEY
+    ): Single<GeneralResponse>
 }
