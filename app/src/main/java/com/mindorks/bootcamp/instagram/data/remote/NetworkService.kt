@@ -98,9 +98,17 @@ interface NetworkService {
     ): Single<GeneralResponse>
 
     @GET(Endpoints.MY_POSTS)
-    fun doFetchMyPosts(
+    fun doFetchMyPostsCall(
         @Header(Networking.HEADER_USER_ID) userId: String,
         @Header(Networking.HEADER_ACCESS_TOKEN) accessToken: String,
         @Header(Networking.HEADER_API_KEY) apiKey: String = Networking.API_KEY
     ): Single<MyPostListResponse>
+
+    @PUT(Endpoints.USERINFO)
+    fun doUpdateUserInfoCall(
+        @Body updateInfoBody: UpdateInfoRequest,
+        @Header(Networking.HEADER_USER_ID) userId: String,
+        @Header(Networking.HEADER_ACCESS_TOKEN) accessToken: String,
+        @Header(Networking.HEADER_API_KEY) apiKey: String = Networking.API_KEY
+    ): Single<GeneralResponse>
 }

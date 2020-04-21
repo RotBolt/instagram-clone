@@ -50,4 +50,9 @@
     <string name="post_count_label">%1d Posts</string>
     <string name="edit_profile_label">Edit Profile</string>
     <string name="my_posts_label">My Posts</string>
+    <string name="change_photo_label">Change Photo</string>
+    <string name="name_hint">Name</string>
+    <string name="bio_hint">Bio</string>
+    <string name="private_info_label">Private Information</string>
+    <string name="email_label">Email Address</string>
 </resources>

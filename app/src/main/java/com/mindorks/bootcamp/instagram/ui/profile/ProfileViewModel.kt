@@ -95,7 +95,7 @@ class ProfileViewModel(
         )
     }
 
-    fun onFetchMyPosts(){
+    fun onFetchMyPosts() {
         loadingMyPosts.postValue(true)
         compositeDisposable.add(
             postRepository.fetchMyPostList(user)
@@ -103,7 +103,7 @@ class ProfileViewModel(
                 .subscribe({
                     loadingMyPosts.postValue(false)
                     myAllPosts.postValue(it)
-                },{
+                }, {
                     loadingMyPosts.postValue(false)
                     handleNetworkError(it)
                     messageString.postValue(Resource.error(it.message))

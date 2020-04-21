@@ -1,6 +1,7 @@
 package com.mindorks.bootcamp.instagram.ui.photo
 
 import androidx.lifecycle.MutableLiveData
+import com.bumptech.glide.Glide
 import com.mindorks.bootcamp.instagram.R
 import com.mindorks.bootcamp.instagram.data.model.Post
 import com.mindorks.bootcamp.instagram.data.model.User

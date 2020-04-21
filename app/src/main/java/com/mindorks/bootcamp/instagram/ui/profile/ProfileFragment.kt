@@ -1,5 +1,7 @@
 package com.mindorks.bootcamp.instagram.ui.profile
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
@@ -22,6 +24,7 @@ class ProfileFragment : BaseFragment<ProfileViewModel>() {
     companion object {
         const val TAG = "ProfileFragment"
 
+        const val EDIT_PROFILE_REQUEST = 1003
         fun newInstance(): ProfileFragment {
             val args = Bundle()
             val fragment = ProfileFragment()
@@ -29,6 +32,10 @@ class ProfileFragment : BaseFragment<ProfileViewModel>() {
             return fragment
         }
     }
+
+    private var bio: String = ""
+    private var name: String = ""
+    private var profilePicUrl: String? = null
 
     @Inject
     lateinit var mainSharedViewModel: MainSharedViewModel
@@ -53,14 +60,17 @@ class ProfileFragment : BaseFragment<ProfileViewModel>() {
 
         viewModel.userName.observe(this, Observer {
             tvUserName.text = it
+            name = it
         })
 
         viewModel.tagLine.observe(this, Observer {
             tvBio.text = it
+            bio = it
         })
 
         viewModel.profilePic.observe(this, Observer {
             it?.run {
+                profilePicUrl = url
                 val glideRequest = Glide.with(this@ProfileFragment.requireContext())
                     .load(GlideHelper.getProtectedUrl(url, headers))
                     .apply(RequestOptions().circleCrop())
@@ -83,6 +93,20 @@ class ProfileFragment : BaseFragment<ProfileViewModel>() {
             myPostAdapter.updateList(it)
             tvPostCount.text = getString(R.string.post_count_label, it.size)
         })
+
+        mainSharedViewModel.newPost.observe(this, Observer {
+            viewModel.onFetchMyPosts()
+        })
+    }
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK){
+            if(requestCode == EDIT_PROFILE_REQUEST){
+                viewModel.onFetchUserInfo()
+            }
+        }
     }
 
     override fun setupView(view: View) {
@@ -95,6 +119,14 @@ class ProfileFragment : BaseFragment<ProfileViewModel>() {
         rvMyPosts.apply {
             layoutManager = gridLayoutManager
             adapter = myPostAdapter
+        }
+
+        btnEditProfile.setOnClickListener {
+            startActivityForResult(Intent(context, EditProfileActivity::class.java).apply {
+                putExtra(EditProfileActivity.NAME_FIELD, name)
+                putExtra(EditProfileActivity.BIO_FIELD, bio)
+                putExtra(EditProfileActivity.PROFILE_PIC_URL, profilePicUrl)
+            }, EDIT_PROFILE_REQUEST)
         }
     }
 

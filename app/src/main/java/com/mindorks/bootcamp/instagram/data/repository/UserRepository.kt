@@ -6,6 +6,7 @@ import com.mindorks.bootcamp.instagram.data.model.User
 import com.mindorks.bootcamp.instagram.data.remote.NetworkService
 import com.mindorks.bootcamp.instagram.data.remote.request.LoginRequest
 import com.mindorks.bootcamp.instagram.data.remote.request.SignUpRequest
+import com.mindorks.bootcamp.instagram.data.remote.request.UpdateInfoRequest
 import com.mindorks.bootcamp.instagram.data.remote.response.GeneralResponse
 import com.mindorks.bootcamp.instagram.data.remote.response.UserInfoResponse
 import io.reactivex.*
@@ -75,5 +76,8 @@ class UserRepository @Inject constructor(
 
     fun doLogoutUser(user: User): Single<GeneralResponse> =
         networkService.doLogOutCall(user.id, user.accessToken)
+
+    fun doUpdateUserInfo(updateInfo: UpdateInfoRequest, user: User): Single<GeneralResponse> =
+        networkService.doUpdateUserInfoCall(updateInfo, user.id, user.accessToken)
 
 }
