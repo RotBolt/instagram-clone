@@ -92,6 +92,7 @@ class ProfileFragment : BaseFragment<ProfileViewModel>() {
         viewModel.myAllPosts.observe(this, Observer {
             myPostAdapter.updateList(it)
             tvPostCount.text = getString(R.string.post_count_label, it.size)
+            tvNoPosts.visibility = if (it.isEmpty()) View.VISIBLE else View.GONE
         })
 
         mainSharedViewModel.newPost.observe(this, Observer {
@@ -102,8 +103,8 @@ class ProfileFragment : BaseFragment<ProfileViewModel>() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK){
-            if(requestCode == EDIT_PROFILE_REQUEST){
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == EDIT_PROFILE_REQUEST) {
                 viewModel.onFetchUserInfo()
             }
         }
