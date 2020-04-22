@@ -11,12 +11,12 @@
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:padding="4dp"
         android:text="@string/logout_label"
         android:textAllCaps="false"
-        android:textSize="18sp"
-        android:padding="4dp"
         android:textColor="@color/black"
-        android:background="?attr/selectableItemBackground"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -119,6 +119,21 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view2" />
+
+    <TextView
+        android:id="@+id/tvNoPosts"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="@string/no_posts"
+        android:textSize="24sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/pbLoading"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/rvMyPosts"
+        tools:visibility="visible" />
 
     <ProgressBar
         android:id="@+id/pbPostsLoading"

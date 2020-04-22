@@ -55,4 +55,5 @@
     <string name="bio_hint">Bio</string>
     <string name="private_info_label">Private Information</string>
     <string name="email_label">Email Address</string>
+    <string name="no_posts">No Posts</string>
 </resources>
