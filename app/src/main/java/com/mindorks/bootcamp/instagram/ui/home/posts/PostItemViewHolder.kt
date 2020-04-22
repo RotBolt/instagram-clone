@@ -41,23 +41,27 @@ class PostItemViewHolder(parent: ViewGroup)
         })
 
         viewModel.profileImage.observe(this, Observer {
-            it?.run {
-                val glideRequest = Glide
-                    .with(itemView.ivProfile.context)
-                    .load(GlideHelper.getProtectedUrl(url, headers))
-                    .apply(RequestOptions.circleCropTransform())
-                    .apply(RequestOptions.placeholderOf(R.drawable.ic_profile_selected))
+            if(it != null){
+                it.run {
+                    val glideRequest = Glide
+                        .with(itemView.ivProfile.context)
+                        .load(GlideHelper.getProtectedUrl(url, headers))
+                        .apply(RequestOptions.circleCropTransform())
+                        .apply(RequestOptions.placeholderOf(R.drawable.ic_profile_selected))
 
-                if (placeholderWidth > 0 && placeholderHeight > 0) {
-                    val params = itemView.ivProfile.layoutParams as ViewGroup.LayoutParams
-                    params.width = placeholderWidth
-                    params.height = placeholderHeight
-                    itemView.ivProfile.layoutParams = params
-                    glideRequest
-                        .apply(RequestOptions.overrideOf(placeholderWidth, placeholderHeight))
-                        .apply(RequestOptions.placeholderOf(R.drawable.ic_profile_unselected))
+                    if (placeholderWidth > 0 && placeholderHeight > 0) {
+                        val params = itemView.ivProfile.layoutParams as ViewGroup.LayoutParams
+                        params.width = placeholderWidth
+                        params.height = placeholderHeight
+                        itemView.ivProfile.layoutParams = params
+                        glideRequest
+                            .apply(RequestOptions.overrideOf(placeholderWidth, placeholderHeight))
+                            .apply(RequestOptions.placeholderOf(R.drawable.ic_profile_unselected))
+                    }
+                    glideRequest.into(itemView.ivProfile)
                 }
-                glideRequest.into(itemView.ivProfile)
+            }else{
+                itemView.ivProfile.setImageResource(R.drawable.ic_profile)
             }
         })
 

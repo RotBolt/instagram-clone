@@ -1,7 +1,7 @@
-package com.mindorks.bootcamp.instagram.ui.home.posts
+package com.mindorks.bootcamp.instagram.ui.postDetails
 
-import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.mindorks.bootcamp.instagram.R
 import com.mindorks.bootcamp.instagram.data.model.Image
@@ -9,27 +9,24 @@ import com.mindorks.bootcamp.instagram.data.model.Post
 import com.mindorks.bootcamp.instagram.data.remote.Networking
 import com.mindorks.bootcamp.instagram.data.repository.PostRepository
 import com.mindorks.bootcamp.instagram.data.repository.UserRepository
-import com.mindorks.bootcamp.instagram.ui.base.BaseItemViewModel
+import com.mindorks.bootcamp.instagram.ui.base.BaseViewModel
 import com.mindorks.bootcamp.instagram.utils.common.Resource
 import com.mindorks.bootcamp.instagram.utils.common.TimeUtils
 import com.mindorks.bootcamp.instagram.utils.display.ScreenUtils
-import com.mindorks.bootcamp.instagram.utils.log.Logger
 import com.mindorks.bootcamp.instagram.utils.network.NetworkHelper
 import com.mindorks.bootcamp.instagram.utils.rx.SchedulerProvider
 import io.reactivex.disposables.CompositeDisposable
-import javax.inject.Inject
 
-class PostItemViewModel @Inject constructor(
+class PostDetailsViewModel(
     schedulerProvider: SchedulerProvider,
     compositeDisposable: CompositeDisposable,
     networkHelper: NetworkHelper,
-    userRepository: UserRepository,
+    private val userRepository: UserRepository,
     private val postRepository: PostRepository
-) : BaseItemViewModel<Post>(schedulerProvider, compositeDisposable, networkHelper) {
+) : BaseViewModel(schedulerProvider, compositeDisposable, networkHelper) {
 
-    companion object {
-        const val TAG = "PostItemViewModel"
-    }
+    val postDetail = MutableLiveData<Post>()
+    val loading = MutableLiveData<Boolean>()
 
     private val user = userRepository.getCurrentUser()!!
     private val screenWidth = ScreenUtils.getScreenWidth()
@@ -41,19 +38,19 @@ class PostItemViewModel @Inject constructor(
         Networking.HEADER_ACCESS_TOKEN to user.accessToken
     )
 
-    val name: LiveData<String> = Transformations.map(data) { it.creator.name }
+    val name: LiveData<String> = Transformations.map(postDetail) { it.creator.name }
     val postTime: LiveData<String> =
-        Transformations.map(data) { TimeUtils.getTimeAgo(it.createdAt) }
-    val likesCount: LiveData<Int> = Transformations.map(data) { it.likedBy?.size ?: 0 }
-    val isLiked: LiveData<Boolean> = Transformations.map(data) {
+        Transformations.map(postDetail) { TimeUtils.getTimeAgo(it.createdAt) }
+    val likesCount: LiveData<Int> = Transformations.map(postDetail) { it.likedBy?.size ?: 0 }
+    val isLiked: LiveData<Boolean> = Transformations.map(postDetail) {
         it.likedBy?.find { postUser -> postUser.id == user.id } !== null
     }
 
-    val profileImage: LiveData<Image?> = Transformations.map(data) {
-        it.creator.profilePicUrl?.run { Image(this, headers) } ?: null
+    val profileImage: LiveData<Image> = Transformations.map(postDetail) {
+        it.creator.profilePicUrl?.run { Image(this, headers) }
     }
 
-    val postImageDetail: LiveData<Image> = Transformations.map(data) {
+    val postImageDetail: LiveData<Image> = Transformations.map(postDetail) {
         Image(
             it.imageUrl,
             headers,
@@ -69,10 +66,25 @@ class PostItemViewModel @Inject constructor(
     } ?: 1f
 
     override fun onCreate() {
-        Logger.d(TAG, "onCreate Called")
     }
 
-    fun onLikeClick() = data.value?.let {
+    fun onFetchPostDetail(postId: String) {
+        loading.postValue(true)
+        compositeDisposable.add(
+            postRepository.fetchPostDetail(postId, user)
+                .subscribeOn(schedulerProvider.io())
+                .subscribe({
+                    loading.postValue(false)
+                    postDetail.postValue(it)
+                }, {
+                    loading.postValue(false)
+                    handleNetworkError(it)
+                    messageString.postValue(Resource.error(it.message))
+                })
+        )
+    }
+
+    fun onLikeClick() = postDetail.value?.let {
         if (networkHelper.isNetworkConnected()) {
             val api = if (isLiked.value == true) {
                 postRepository.makeUnlikePost(it, user)
@@ -82,13 +94,17 @@ class PostItemViewModel @Inject constructor(
             compositeDisposable.add(
                 api
                     .subscribeOn(schedulerProvider.io())
-                    .subscribe(
-                        { responsePost -> if (responsePost.id == it.id) updateData(responsePost) },
-                        { error -> handleNetworkError(error) })
+                    .subscribe({ post ->
+                        postDetail.postValue(post)
+                    }, { err ->
+                        handleNetworkError(err)
+                        messageString.postValue(Resource.error(err.message))
+                    })
             )
         } else {
             messageStringId.postValue(Resource.error(R.string.network_connection_error))
         }
     }
+
 
 }

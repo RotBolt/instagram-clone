@@ -7,6 +7,7 @@
 
     <ImageView
         android:id="@+id/ivMyPostImage"
+        android:transitionName="@string/shared_element_post"
         android:layout_width="80dp"
         android:layout_height="80dp"
         app:layout_constraintBottom_toBottomOf="parent"

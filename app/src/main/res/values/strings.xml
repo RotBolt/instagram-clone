@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Instagram Project</string>
+    <string name="app_name">Instagram Clone</string>
 
     <string name="network_connection_error">Internet connection lost, please retry again</string>
     <string name="network_default_error">Something wrong happened, please retry again</string>
@@ -29,6 +29,7 @@
     <string name="shared_element_name">name_field</string>
     <string name="shared_element_email">email_field</string>
     <string name="shared_element_password">password_field</string>
+    <string name="shared_element_post">postTransition</string>
 
 
     <!--    Menu-->
