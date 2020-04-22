@@ -17,4 +17,6 @@ object Endpoints {
     const val LOGOUT = "logout"
     const val MY_POSTS="instagram/post/my"
 
+    const val POST_DETAIL="instagram/post/id/{postId}"
+
 }

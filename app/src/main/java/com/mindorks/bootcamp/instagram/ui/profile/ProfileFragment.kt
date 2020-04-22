@@ -129,6 +129,4 @@ class ProfileFragment : BaseFragment<ProfileViewModel>() {
             }, EDIT_PROFILE_REQUEST)
         }
     }
-
-
 }

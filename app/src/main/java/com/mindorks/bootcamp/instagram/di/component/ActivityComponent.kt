@@ -6,6 +6,8 @@ import com.mindorks.bootcamp.instagram.ui.dummy.DummyActivity
 import com.mindorks.bootcamp.instagram.ui.login.LoginActivity
 import com.mindorks.bootcamp.instagram.ui.login.signUp.SignUpActivity
 import com.mindorks.bootcamp.instagram.ui.main.MainActivity
+import com.mindorks.bootcamp.instagram.ui.postDetails.PostDetailActivity
+import com.mindorks.bootcamp.instagram.ui.postDetails.PostDetailsViewModel
 import com.mindorks.bootcamp.instagram.ui.profile.EditProfileActivity
 import com.mindorks.bootcamp.instagram.ui.splash.SplashActivity
 import dagger.Component
@@ -27,6 +29,7 @@ interface ActivityComponent {
 
     fun inject(activity: MainActivity)
 
-    fun inject(activity:EditProfileActivity)
+    fun inject(activity: EditProfileActivity)
 
+    fun inject(activity: PostDetailActivity)
 }

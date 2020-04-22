@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mindorks.bootcamp.instagram.data.repository.DummyRepository
 import com.mindorks.bootcamp.instagram.data.repository.PhotoRepository
+import com.mindorks.bootcamp.instagram.data.repository.PostRepository
 import com.mindorks.bootcamp.instagram.data.repository.UserRepository
 import com.mindorks.bootcamp.instagram.di.TempDirectory
 import com.mindorks.bootcamp.instagram.ui.base.BaseActivity
@@ -12,6 +13,7 @@ import com.mindorks.bootcamp.instagram.ui.login.LoginViewModel
 import com.mindorks.bootcamp.instagram.ui.login.signUp.SignUpViewModel
 import com.mindorks.bootcamp.instagram.ui.main.MainSharedViewModel
 import com.mindorks.bootcamp.instagram.ui.main.MainViewModel
+import com.mindorks.bootcamp.instagram.ui.postDetails.PostDetailsViewModel
 import com.mindorks.bootcamp.instagram.ui.profile.EditProfileViewModel
 import com.mindorks.bootcamp.instagram.ui.splash.SplashViewModel
 import com.mindorks.bootcamp.instagram.utils.ViewModelProviderFactory
@@ -100,13 +102,31 @@ class ActivityModule(private val activity: BaseActivity<*>) {
         }).get(MainSharedViewModel::class.java)
 
     @Provides
+    fun providePostDetailsViewModel(
+        schedulerProvider: SchedulerProvider,
+        compositeDisposable: CompositeDisposable,
+        networkHelper: NetworkHelper,
+        userRepository: UserRepository,
+        postRepository: PostRepository
+    ): PostDetailsViewModel = ViewModelProviders.of(
+        activity, ViewModelProviderFactory(PostDetailsViewModel::class) {
+            PostDetailsViewModel(
+                schedulerProvider,
+                compositeDisposable,
+                networkHelper,
+                userRepository,
+                postRepository
+            )
+        }).get(PostDetailsViewModel::class.java)
+
+    @Provides
     fun provideEditProfileViewModel(
         schedulerProvider: SchedulerProvider,
         compositeDisposable: CompositeDisposable,
         networkHelper: NetworkHelper,
         userRepository: UserRepository,
         photoRepository: PhotoRepository,
-        @TempDirectory directory:File
+        @TempDirectory directory: File
     ): EditProfileViewModel = ViewModelProviders.of(
         activity, ViewModelProviderFactory(EditProfileViewModel::class) {
             EditProfileViewModel(

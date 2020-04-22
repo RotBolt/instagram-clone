@@ -87,4 +87,8 @@ class PostRepository @Inject constructor(
     fun fetchMyPostList(user: User): Single<List<MyPostListResponse.MyPost>> =
         networkService.doFetchMyPostsCall(user.id, user.accessToken)
             .map { it.data }
+
+    fun fetchPostDetail(postId: String, user: User): Single<Post> =
+        networkService.doPostDetailCall(postId, user.id, user.accessToken)
+            .map { it.data }
 }
