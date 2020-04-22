@@ -10,7 +10,7 @@ data class UpdateInfoRequest(
 
     @SerializedName("profilePicUrl")
     @Expose
-    val profilePicUrl: String,
+    val profilePicUrl: String?,
 
     @SerializedName("tagline")
     @Expose
