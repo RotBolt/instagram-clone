@@ -76,7 +76,7 @@ class EditProfileViewModel(
                             messageString.postValue(Resource.error(it.message))
                         })
                 )
-            } else if (url != null) {
+            } else{
                 nameValidator.postValue(true to "validated")
                 loading.postValue(true)
                 compositeDisposable.add(
