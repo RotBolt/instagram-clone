@@ -67,7 +67,8 @@ class LoginViewModel(
         if (email != null &&
             password != null &&
             emailStatus == Status.SUCCESS &&
-            passwordStatus == Status.SUCCESS
+            passwordStatus == Status.SUCCESS &&
+            checkInternetConnectionWithMessage()
         ) {
             loggingIn.postValue(true)
             compositeDisposable.add(
@@ -77,7 +78,7 @@ class LoginViewModel(
                         userRepository.saveCurrentUser(it)
                         loggingIn.postValue(false)
                         launchMain.postValue(Event(emptyMap()))
-                    },{
+                    }, {
                         handleNetworkError(it)
                         loggingIn.postValue(false)
                     })
