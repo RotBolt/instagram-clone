@@ -9,6 +9,7 @@ import com.mindorks.bootcamp.instagram.ui.base.BaseViewModel
 import com.mindorks.bootcamp.instagram.utils.common.Resource
 import com.mindorks.bootcamp.instagram.utils.common.Status
 import com.mindorks.bootcamp.instagram.utils.network.NetworkHelper
+import com.mindorks.bootcamp.instagram.utils.network.NetworkHelperImpl
 import com.mindorks.bootcamp.instagram.utils.rx.SchedulerProvider
 import io.reactivex.disposables.CompositeDisposable
 
@@ -16,9 +17,9 @@ import io.reactivex.disposables.CompositeDisposable
 class DummiesViewModel(
     schedulerProvider: SchedulerProvider,
     compositeDisposable: CompositeDisposable,
-    networkHelper: NetworkHelper,
+    networkHelperImpl: NetworkHelper,
     private val dummyRepository: DummyRepository
-) : BaseViewModel(schedulerProvider, compositeDisposable, networkHelper) {
+) : BaseViewModel(schedulerProvider, compositeDisposable, networkHelperImpl) {
 
     private val dummyLiveData: MutableLiveData<Resource<List<Dummy>>> = MutableLiveData()
 

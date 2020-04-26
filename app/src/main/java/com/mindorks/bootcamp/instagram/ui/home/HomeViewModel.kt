@@ -1,6 +1,5 @@
 package com.mindorks.bootcamp.instagram.ui.home
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.mindorks.bootcamp.instagram.data.model.Post
 import com.mindorks.bootcamp.instagram.data.repository.PostRepository
@@ -15,12 +14,12 @@ import io.reactivex.processors.PublishProcessor
 class HomeViewModel(
     schedulerProvider: SchedulerProvider,
     compositeDisposable: CompositeDisposable,
-    networkHelper: NetworkHelper,
+    networkHelperImpl: NetworkHelper,
     private val userRepository: UserRepository,
     private val postRepository: PostRepository,
     private val allPosts: ArrayList<Post>,
     private val paginator: PublishProcessor<Pair<String?, String?>>
-) : BaseViewModel(schedulerProvider, compositeDisposable, networkHelper) {
+) : BaseViewModel(schedulerProvider, compositeDisposable, networkHelperImpl) {
 
     val loading = MutableLiveData<Boolean>()
     val posts = MutableLiveData<Resource<List<Post>>>()

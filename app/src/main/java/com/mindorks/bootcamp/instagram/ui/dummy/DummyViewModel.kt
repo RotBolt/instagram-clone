@@ -10,9 +10,9 @@ import io.reactivex.disposables.CompositeDisposable
 class DummyViewModel(
     schedulerProvider: SchedulerProvider,
     compositeDisposable: CompositeDisposable,
-    networkHelper: NetworkHelper,
+    networkHelperImpl: NetworkHelper,
     private val dummyRepository: DummyRepository
-) : BaseViewModel(schedulerProvider, compositeDisposable, networkHelper) {
+) : BaseViewModel(schedulerProvider, compositeDisposable, networkHelperImpl) {
 
     override fun onCreate() {
         // do something

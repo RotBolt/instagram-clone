@@ -16,9 +16,9 @@ import io.reactivex.disposables.CompositeDisposable
 class SignUpViewModel(
     schedulerProvider: SchedulerProvider,
     compositeDisposable: CompositeDisposable,
-    networkHelper: NetworkHelper,
+    networkHelperImpl: NetworkHelper,
     private val userRepository: UserRepository
-) : BaseViewModel(schedulerProvider, compositeDisposable, networkHelper) {
+) : BaseViewModel(schedulerProvider, compositeDisposable, networkHelperImpl) {
 
     private val validationResult = MutableLiveData<Validator.ValidationResult>()
 

@@ -8,7 +8,7 @@ import com.mindorks.bootcamp.instagram.data.model.User
 import com.mindorks.bootcamp.instagram.data.repository.UserRepository
 import com.mindorks.bootcamp.instagram.utils.common.Event
 import com.mindorks.bootcamp.instagram.utils.common.Resource
-import com.mindorks.bootcamp.instagram.utils.network.NetworkHelper
+import com.mindorks.bootcamp.instagram.utils.network.NetworkHelperImpl
 import com.mindorks.bootcamp.instagram.utils.rx.TestSchedulerProvider
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
@@ -30,7 +30,7 @@ class LoginViewModelTest {
     val rule = InstantTaskExecutorRule()
 
     @Mock
-    private lateinit var networkHelper: NetworkHelper
+    private lateinit var networkHelperImpl: NetworkHelperImpl
 
     @Mock
     private lateinit var userRepository: UserRepository
@@ -56,7 +56,7 @@ class LoginViewModelTest {
         loginViewModel = LoginViewModel(
             testSchedulerProvider,
             compositeDisposable,
-            networkHelper,
+            networkHelperImpl,
             userRepository
         )
 
@@ -68,7 +68,7 @@ class LoginViewModelTest {
     }
 
     @Test
-    fun givenServerRsponse200_whenLogin_shouldLaunchMain() {
+    fun givenServerResponse200_whenLogin_shouldLaunchMain() {
         val email = "test@pui.com"
         val password = "puipuipui"
         val user = User("id", "pui-man", email, "accessToken")
@@ -76,7 +76,7 @@ class LoginViewModelTest {
         loginViewModel.passwordField.postValue(password)
 
         doReturn(true)
-            .`when`(networkHelper)
+            .`when`(networkHelperImpl)
             .isNetworkConnected()
         doReturn(Single.just(user))
             .`when`(userRepository)
@@ -105,7 +105,7 @@ class LoginViewModelTest {
         loginViewModel.passwordField.postValue(password)
 
         doReturn(false)
-            .`when`(networkHelper)
+            .`when`(networkHelperImpl)
             .isNetworkConnected()
 
         loginViewModel.onLogin()

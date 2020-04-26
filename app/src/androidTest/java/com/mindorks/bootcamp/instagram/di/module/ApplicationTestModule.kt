@@ -4,16 +4,16 @@ import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.room.Room
-import com.mindorks.bootcamp.instagram.BuildConfig
 import com.mindorks.bootcamp.instagram.InstagramApplication
 import com.mindorks.bootcamp.instagram.data.local.db.DatabaseService
+import com.mindorks.bootcamp.instagram.data.remote.FakeNetworkService
 import com.mindorks.bootcamp.instagram.data.remote.NetworkService
 import com.mindorks.bootcamp.instagram.data.remote.Networking
 import com.mindorks.bootcamp.instagram.di.ApplicationContext
 import com.mindorks.bootcamp.instagram.di.TempDirectory
 import com.mindorks.bootcamp.instagram.utils.common.FileUtils
+import com.mindorks.bootcamp.instagram.utils.network.FakeNetworkHelperImpl
 import com.mindorks.bootcamp.instagram.utils.network.NetworkHelper
-import com.mindorks.bootcamp.instagram.utils.network.NetworkHelperImpl
 import com.mindorks.bootcamp.instagram.utils.rx.RxSchedulerProvider
 import com.mindorks.bootcamp.instagram.utils.rx.SchedulerProvider
 import dagger.Module
@@ -22,7 +22,7 @@ import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Singleton
 
 @Module
-class ApplicationModule(private val application: InstagramApplication) {
+class ApplicationTestModule(private val application: InstagramApplication) {
 
     @Provides
     @Singleton
@@ -33,10 +33,6 @@ class ApplicationModule(private val application: InstagramApplication) {
     @ApplicationContext
     fun provideContext(): Context = application
 
-    /**
-     * Since this function do not have @Singleton then each time CompositeDisposable is injected
-     * then a new instance of CompositeDisposable will be provided
-     */
     @Provides
     fun provideCompositeDisposable(): CompositeDisposable = CompositeDisposable()
 
@@ -62,17 +58,16 @@ class ApplicationModule(private val application: InstagramApplication) {
 
     @Provides
     @Singleton
-    fun provideNetworkService(): NetworkService =
-        Networking.create(
-            BuildConfig.API_KEY,
-            BuildConfig.BASE_URL,
-            application.cacheDir,
-            10 * 1024 * 1024 // 10MB
-        )
+    fun provideNetworkService(): NetworkService {
+        Networking.API_KEY = "FAKE_API_KEY"
+        return FakeNetworkService()
+    }
+
 
     @Singleton
     @Provides
-    fun provideNetworkHelper(): NetworkHelper = NetworkHelperImpl(application)
+    fun provideNetworkHelper(): NetworkHelper = FakeNetworkHelperImpl(application)
+
 
     @Provides
     @Singleton

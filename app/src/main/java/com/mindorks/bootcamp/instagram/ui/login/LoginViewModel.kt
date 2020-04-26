@@ -9,17 +9,17 @@ import com.mindorks.bootcamp.instagram.utils.common.Event
 import com.mindorks.bootcamp.instagram.utils.common.Resource
 import com.mindorks.bootcamp.instagram.utils.common.Status
 import com.mindorks.bootcamp.instagram.utils.common.Validator
-import com.mindorks.bootcamp.instagram.utils.network.NetworkHelper
-import io.reactivex.disposables.CompositeDisposable
 import com.mindorks.bootcamp.instagram.utils.common.Validator.Validation.Field
+import com.mindorks.bootcamp.instagram.utils.network.NetworkHelper
 import com.mindorks.bootcamp.instagram.utils.rx.SchedulerProvider
+import io.reactivex.disposables.CompositeDisposable
 
 class LoginViewModel(
     schedulerProvider: SchedulerProvider,
     compositeDisposable: CompositeDisposable,
-    networkHelper: NetworkHelper,
+    networkHelperImpl: NetworkHelper,
     private val userRepository: UserRepository
-) : BaseViewModel(schedulerProvider, compositeDisposable, networkHelper) {
+) : BaseViewModel(schedulerProvider, compositeDisposable, networkHelperImpl) {
 
     private val validationResult = MutableLiveData<Validator.ValidationResult>()
 

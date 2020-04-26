@@ -2,7 +2,6 @@ package com.mindorks.bootcamp.instagram.ui.profile
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import androidx.lifecycle.Transformations
 import com.mindorks.bootcamp.instagram.R
 import com.mindorks.bootcamp.instagram.data.model.Image
@@ -21,10 +20,10 @@ import io.reactivex.disposables.CompositeDisposable
 class ProfileViewModel(
     schedulerProvider: SchedulerProvider,
     compositeDisposable: CompositeDisposable,
-    networkHelper: NetworkHelper,
+    networkHelperImpl: NetworkHelper,
     private val userRepository: UserRepository,
     private val postRepository: PostRepository
-) : BaseViewModel(schedulerProvider, compositeDisposable, networkHelper) {
+) : BaseViewModel(schedulerProvider, compositeDisposable, networkHelperImpl) {
 
     private val user = userRepository.getCurrentUser()!!
 

@@ -1,7 +1,6 @@
 package com.mindorks.bootcamp.instagram.ui.photo
 
 import androidx.lifecycle.MutableLiveData
-import com.bumptech.glide.Glide
 import com.mindorks.bootcamp.instagram.R
 import com.mindorks.bootcamp.instagram.data.model.Post
 import com.mindorks.bootcamp.instagram.data.model.User
@@ -12,7 +11,6 @@ import com.mindorks.bootcamp.instagram.ui.base.BaseViewModel
 import com.mindorks.bootcamp.instagram.utils.common.Event
 import com.mindorks.bootcamp.instagram.utils.common.FileUtils
 import com.mindorks.bootcamp.instagram.utils.common.Resource
-import com.mindorks.bootcamp.instagram.utils.log.Logger
 import com.mindorks.bootcamp.instagram.utils.network.NetworkHelper
 import com.mindorks.bootcamp.instagram.utils.rx.SchedulerProvider
 import io.reactivex.Single
@@ -23,12 +21,12 @@ import java.io.InputStream
 class PhotoViewModel(
     schedulerProvider: SchedulerProvider,
     compositeDisposable: CompositeDisposable,
-    networkHelper: NetworkHelper,
+    networkHelperImpl: NetworkHelper,
     private val userRepository: UserRepository,
     private val postRepository: PostRepository,
     private val photoRepository: PhotoRepository,
     private val directory: File
-) : BaseViewModel(schedulerProvider, compositeDisposable, networkHelper) {
+) : BaseViewModel(schedulerProvider, compositeDisposable, networkHelperImpl) {
 
 
     private val user: User =

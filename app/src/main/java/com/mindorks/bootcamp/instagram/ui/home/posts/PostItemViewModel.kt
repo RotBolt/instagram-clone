@@ -1,6 +1,5 @@
 package com.mindorks.bootcamp.instagram.ui.home.posts
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.mindorks.bootcamp.instagram.R
@@ -22,10 +21,10 @@ import javax.inject.Inject
 class PostItemViewModel @Inject constructor(
     schedulerProvider: SchedulerProvider,
     compositeDisposable: CompositeDisposable,
-    networkHelper: NetworkHelper,
+    networkHelperImpl: NetworkHelper,
     userRepository: UserRepository,
     private val postRepository: PostRepository
-) : BaseItemViewModel<Post>(schedulerProvider, compositeDisposable, networkHelper) {
+) : BaseItemViewModel<Post>(schedulerProvider, compositeDisposable, networkHelperImpl) {
 
     companion object {
         const val TAG = "PostItemViewModel"
@@ -73,7 +72,7 @@ class PostItemViewModel @Inject constructor(
     }
 
     fun onLikeClick() = data.value?.let {
-        if (networkHelper.isNetworkConnected()) {
+        if (networkHelperImpl.isNetworkConnected()) {
             val api = if (isLiked.value == true) {
                 postRepository.makeUnlikePost(it, user)
             } else {

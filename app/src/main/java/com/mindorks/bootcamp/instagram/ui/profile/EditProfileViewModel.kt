@@ -1,6 +1,5 @@
 package com.mindorks.bootcamp.instagram.ui.profile
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.mindorks.bootcamp.instagram.data.remote.request.UpdateInfoRequest
 import com.mindorks.bootcamp.instagram.data.repository.PhotoRepository
@@ -19,11 +18,11 @@ import java.io.InputStream
 class EditProfileViewModel(
     schedulerProvider: SchedulerProvider,
     compositeDisposable: CompositeDisposable,
-    networkHelper: NetworkHelper,
+    networkHelperImpl: NetworkHelper,
     private val userRepository: UserRepository,
     private val photoRepository: PhotoRepository,
     private val directory: File
-) : BaseViewModel(schedulerProvider, compositeDisposable, networkHelper) {
+) : BaseViewModel(schedulerProvider, compositeDisposable, networkHelperImpl) {
 
     private val user = userRepository.getCurrentUser()!!
     val loading = MutableLiveData<Boolean>()

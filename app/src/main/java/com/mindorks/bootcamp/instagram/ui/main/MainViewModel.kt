@@ -1,6 +1,5 @@
 package com.mindorks.bootcamp.instagram.ui.main
 
-import android.util.EventLog
 import androidx.lifecycle.MutableLiveData
 import com.mindorks.bootcamp.instagram.ui.base.BaseViewModel
 import com.mindorks.bootcamp.instagram.utils.common.Event
@@ -11,8 +10,8 @@ import io.reactivex.disposables.CompositeDisposable
 class MainViewModel(
     schedulerProvider: SchedulerProvider,
     compositeDisposable: CompositeDisposable,
-    networkHelper: NetworkHelper
-) : BaseViewModel(schedulerProvider, compositeDisposable, networkHelper){
+    networkHelperImpl: NetworkHelper
+) : BaseViewModel(schedulerProvider, compositeDisposable, networkHelperImpl){
 
     val profileNavigation = MutableLiveData<Event<Boolean>>()
     val homeNavigation = MutableLiveData<Event<Boolean>>()
