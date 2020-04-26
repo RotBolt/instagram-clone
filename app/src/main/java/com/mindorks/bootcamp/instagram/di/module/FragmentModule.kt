@@ -43,7 +43,7 @@ class FragmentModule(private val fragment: BaseFragment<*>) {
     fun provideDummiesViewModel(
         schedulerProvider: SchedulerProvider,
         compositeDisposable: CompositeDisposable,
-        networkHelper: NetworkHelper,
+        networkHelperImpl: NetworkHelper,
         dummyRepository: DummyRepository
     ): DummiesViewModel =
         ViewModelProviders.of(fragment,
@@ -51,7 +51,7 @@ class FragmentModule(private val fragment: BaseFragment<*>) {
                 DummiesViewModel(
                     schedulerProvider,
                     compositeDisposable,
-                    networkHelper,
+                    networkHelperImpl,
                     dummyRepository
                 )
             }
@@ -68,13 +68,13 @@ class FragmentModule(private val fragment: BaseFragment<*>) {
     fun provideHomeViewModel(
         schedulerProvider: SchedulerProvider,
         compositeDisposable: CompositeDisposable,
-        networkHelper: NetworkHelper,
+        networkHelperImpl: NetworkHelper,
         userRepository: UserRepository,
         postRepository: PostRepository
     ): HomeViewModel = ViewModelProviders.of(
         fragment, ViewModelProviderFactory(HomeViewModel::class) {
             HomeViewModel(
-                schedulerProvider, compositeDisposable, networkHelper, userRepository,
+                schedulerProvider, compositeDisposable, networkHelperImpl, userRepository,
                 postRepository, ArrayList(), PublishProcessor.create()
             )
         }).get(HomeViewModel::class.java)
@@ -86,12 +86,12 @@ class FragmentModule(private val fragment: BaseFragment<*>) {
         userRepository: UserRepository,
         photoRepository: PhotoRepository,
         postRepository: PostRepository,
-        networkHelper: NetworkHelper,
+        networkHelperImpl: NetworkHelper,
         @TempDirectory directory: File
     ): PhotoViewModel = ViewModelProviders.of(
         fragment, ViewModelProviderFactory(PhotoViewModel::class) {
             PhotoViewModel(
-                schedulerProvider, compositeDisposable, networkHelper,
+                schedulerProvider, compositeDisposable, networkHelperImpl,
                 userRepository, postRepository, photoRepository, directory
             )
         }).get(PhotoViewModel::class.java)
@@ -100,7 +100,7 @@ class FragmentModule(private val fragment: BaseFragment<*>) {
     fun provideProfileViewModel(
         schedulerProvider: SchedulerProvider,
         compositeDisposable: CompositeDisposable,
-        networkHelper: NetworkHelper,
+        networkHelperImpl: NetworkHelper,
         userRepository: UserRepository,
         postRepository: PostRepository
     ): ProfileViewModel = ViewModelProviders.of(
@@ -108,7 +108,7 @@ class FragmentModule(private val fragment: BaseFragment<*>) {
             ProfileViewModel(
                 schedulerProvider,
                 compositeDisposable,
-                networkHelper,
+                networkHelperImpl,
                 userRepository,
                 postRepository
             )
@@ -130,10 +130,10 @@ class FragmentModule(private val fragment: BaseFragment<*>) {
     fun provideMainSharedViewModel(
         schedulerProvider: SchedulerProvider,
         compositeDisposable: CompositeDisposable,
-        networkHelper: NetworkHelper
+        networkHelperImpl: NetworkHelper
     ): MainSharedViewModel = ViewModelProviders.of(
         fragment.activity!!, ViewModelProviderFactory(MainSharedViewModel::class) {
-            MainSharedViewModel(schedulerProvider, compositeDisposable, networkHelper)
+            MainSharedViewModel(schedulerProvider, compositeDisposable, networkHelperImpl)
         }).get(MainSharedViewModel::class.java)
 
 }

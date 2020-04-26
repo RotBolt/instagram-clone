@@ -20,10 +20,10 @@ import io.reactivex.disposables.CompositeDisposable
 class PostDetailsViewModel(
     schedulerProvider: SchedulerProvider,
     compositeDisposable: CompositeDisposable,
-    networkHelper: NetworkHelper,
+    networkHelperImpl: NetworkHelper,
     private val userRepository: UserRepository,
     private val postRepository: PostRepository
-) : BaseViewModel(schedulerProvider, compositeDisposable, networkHelper) {
+) : BaseViewModel(schedulerProvider, compositeDisposable, networkHelperImpl) {
 
     val postDetail = MutableLiveData<Post>()
     val loading = MutableLiveData<Boolean>()
@@ -85,7 +85,7 @@ class PostDetailsViewModel(
     }
 
     fun onLikeClick() = postDetail.value?.let {
-        if (networkHelper.isNetworkConnected()) {
+        if (networkHelperImpl.isNetworkConnected()) {
             val api = if (isLiked.value == true) {
                 postRepository.makeUnlikePost(it, user)
             } else {

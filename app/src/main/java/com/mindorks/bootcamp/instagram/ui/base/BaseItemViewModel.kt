@@ -9,8 +9,8 @@ import io.reactivex.disposables.CompositeDisposable
 abstract class BaseItemViewModel<T : Any>(
     schedulerProvider: SchedulerProvider,
     compositeDisposable: CompositeDisposable,
-    networkHelper: NetworkHelper
-) : BaseViewModel(schedulerProvider, compositeDisposable, networkHelper) {
+    networkHelperImpl: NetworkHelper
+) : BaseViewModel(schedulerProvider, compositeDisposable, networkHelperImpl) {
 
     val data: MutableLiveData<T> = MutableLiveData()
 

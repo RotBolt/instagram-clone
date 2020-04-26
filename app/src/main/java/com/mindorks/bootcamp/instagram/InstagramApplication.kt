@@ -21,4 +21,8 @@ class InstagramApplication : Application() {
             .build()
         applicationComponent.inject(this)
     }
+
+    fun setComponent(applicationComponent: ApplicationComponent) {
+        this.applicationComponent = applicationComponent
+    }
 }

@@ -13,7 +13,7 @@ import javax.net.ssl.HttpsURLConnection
 abstract class BaseViewModel(
     protected val schedulerProvider: SchedulerProvider,
     protected val compositeDisposable: CompositeDisposable,
-    protected val networkHelper: NetworkHelper
+    protected val networkHelperImpl: NetworkHelper
 ) : ViewModel() {
 
     override fun onCleared() {
@@ -25,18 +25,18 @@ abstract class BaseViewModel(
     val messageString: MutableLiveData<Resource<String>> = MutableLiveData()
 
     protected fun checkInternetConnectionWithMessage(): Boolean =
-        if (networkHelper.isNetworkConnected()) {
+        if (networkHelperImpl.isNetworkConnected()) {
             true
         } else {
             messageStringId.postValue(Resource.error(R.string.network_connection_error))
             false
         }
 
-    protected fun checkInternetConnection(): Boolean = networkHelper.isNetworkConnected()
+    protected fun checkInternetConnection(): Boolean = networkHelperImpl.isNetworkConnected()
 
     protected fun handleNetworkError(err: Throwable?) =
         err?.let {
-            networkHelper.castToNetworkError(it).run {
+            networkHelperImpl.castToNetworkError(it).run {
                 when (status) {
                     -1 -> messageStringId.postValue(Resource.error(R.string.network_default_error))
                     0 -> messageStringId.postValue(Resource.error(R.string.server_connection_error))

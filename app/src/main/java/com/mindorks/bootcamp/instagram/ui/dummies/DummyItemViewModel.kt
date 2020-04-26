@@ -14,8 +14,8 @@ import javax.inject.Inject
 class DummyItemViewModel @Inject constructor(
     schedulerProvider: SchedulerProvider,
     compositeDisposable: CompositeDisposable,
-    networkHelper: NetworkHelper
-) : BaseItemViewModel<Dummy>(schedulerProvider, compositeDisposable, networkHelper) {
+    networkHelperImpl: NetworkHelper
+) : BaseItemViewModel<Dummy>(schedulerProvider, compositeDisposable, networkHelperImpl) {
 
     companion object {
         const val TAG = "DummyItemViewModel"

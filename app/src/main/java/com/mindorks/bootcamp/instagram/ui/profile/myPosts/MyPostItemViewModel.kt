@@ -18,13 +18,13 @@ import javax.inject.Inject
 class MyPostItemViewModel @Inject constructor(
     schedulerProvider: SchedulerProvider,
     compositeDisposable: CompositeDisposable,
-    networkHelper: NetworkHelper,
+    networkHelperImpl: NetworkHelper,
     private val userRepository: UserRepository,
     private val postRepository: PostRepository
 ) : BaseItemViewModel<MyPostListResponse.MyPost>(
     schedulerProvider,
     compositeDisposable,
-    networkHelper
+    networkHelperImpl
 ) {
 
     private val user = userRepository.getCurrentUser()!!

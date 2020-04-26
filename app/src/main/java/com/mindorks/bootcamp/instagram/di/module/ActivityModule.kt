@@ -40,11 +40,11 @@ class ActivityModule(private val activity: BaseActivity<*>) {
     fun provideSplashViewModel(
         schedulerProvider: SchedulerProvider,
         compositeDisposable: CompositeDisposable,
-        networkHelper: NetworkHelper,
+        networkHelperImpl: NetworkHelper,
         userRepository: UserRepository
     ): SplashViewModel = ViewModelProviders.of(
         activity, ViewModelProviderFactory(SplashViewModel::class) {
-            SplashViewModel(schedulerProvider, compositeDisposable, networkHelper, userRepository)
+            SplashViewModel(schedulerProvider, compositeDisposable, networkHelperImpl, userRepository)
             //this lambda creates and return SplashViewModel
         }).get(SplashViewModel::class.java)
 
@@ -52,60 +52,60 @@ class ActivityModule(private val activity: BaseActivity<*>) {
     fun provideDummyViewModel(
         schedulerProvider: SchedulerProvider,
         compositeDisposable: CompositeDisposable,
-        networkHelper: NetworkHelper,
+        networkHelperImpl: NetworkHelper,
         dummyRepository: DummyRepository
     ): DummyViewModel = ViewModelProviders.of(
         activity, ViewModelProviderFactory(DummyViewModel::class) {
-            DummyViewModel(schedulerProvider, compositeDisposable, networkHelper, dummyRepository)
+            DummyViewModel(schedulerProvider, compositeDisposable, networkHelperImpl, dummyRepository)
         }).get(DummyViewModel::class.java)
 
     @Provides
     fun provideLoginViewModel(
         schedulerProvider: SchedulerProvider,
         compositeDisposable: CompositeDisposable,
-        networkHelper: NetworkHelper,
+        networkHelperImpl: NetworkHelper,
         userRepository: UserRepository
     ): LoginViewModel = ViewModelProviders.of(
         activity, ViewModelProviderFactory(LoginViewModel::class) {
-            LoginViewModel(schedulerProvider, compositeDisposable, networkHelper, userRepository)
+            LoginViewModel(schedulerProvider, compositeDisposable, networkHelperImpl, userRepository)
         }).get(LoginViewModel::class.java)
 
     @Provides
     fun provideSignUpViewModel(
         schedulerProvider: SchedulerProvider,
         compositeDisposable: CompositeDisposable,
-        networkHelper: NetworkHelper,
+        networkHelperImpl: NetworkHelper,
         userRepository: UserRepository
     ): SignUpViewModel = ViewModelProviders.of(
         activity, ViewModelProviderFactory(SignUpViewModel::class) {
-            SignUpViewModel(schedulerProvider, compositeDisposable, networkHelper, userRepository)
+            SignUpViewModel(schedulerProvider, compositeDisposable, networkHelperImpl, userRepository)
         }).get(SignUpViewModel::class.java)
 
     @Provides
     fun provideMainViewModel(
         schedulerProvider: SchedulerProvider,
         compositeDisposable: CompositeDisposable,
-        networkHelper: NetworkHelper
+        networkHelperImpl: NetworkHelper
     ): MainViewModel = ViewModelProviders.of(
         activity, ViewModelProviderFactory(MainViewModel::class) {
-            MainViewModel(schedulerProvider, compositeDisposable, networkHelper)
+            MainViewModel(schedulerProvider, compositeDisposable, networkHelperImpl)
         }).get(MainViewModel::class.java)
 
     @Provides
     fun provideMainSharedViewModel(
         schedulerProvider: SchedulerProvider,
         compositeDisposable: CompositeDisposable,
-        networkHelper: NetworkHelper
+        networkHelperImpl: NetworkHelper
     ): MainSharedViewModel = ViewModelProviders.of(
         activity, ViewModelProviderFactory(MainSharedViewModel::class) {
-            MainSharedViewModel(schedulerProvider, compositeDisposable, networkHelper)
+            MainSharedViewModel(schedulerProvider, compositeDisposable, networkHelperImpl)
         }).get(MainSharedViewModel::class.java)
 
     @Provides
     fun providePostDetailsViewModel(
         schedulerProvider: SchedulerProvider,
         compositeDisposable: CompositeDisposable,
-        networkHelper: NetworkHelper,
+        networkHelperImpl: NetworkHelper,
         userRepository: UserRepository,
         postRepository: PostRepository
     ): PostDetailsViewModel = ViewModelProviders.of(
@@ -113,7 +113,7 @@ class ActivityModule(private val activity: BaseActivity<*>) {
             PostDetailsViewModel(
                 schedulerProvider,
                 compositeDisposable,
-                networkHelper,
+                networkHelperImpl,
                 userRepository,
                 postRepository
             )
@@ -123,7 +123,7 @@ class ActivityModule(private val activity: BaseActivity<*>) {
     fun provideEditProfileViewModel(
         schedulerProvider: SchedulerProvider,
         compositeDisposable: CompositeDisposable,
-        networkHelper: NetworkHelper,
+        networkHelperImpl: NetworkHelper,
         userRepository: UserRepository,
         photoRepository: PhotoRepository,
         @TempDirectory directory: File
@@ -132,7 +132,7 @@ class ActivityModule(private val activity: BaseActivity<*>) {
             EditProfileViewModel(
                 schedulerProvider,
                 compositeDisposable,
-                networkHelper,
+                networkHelperImpl,
                 userRepository,
                 photoRepository,
                 directory

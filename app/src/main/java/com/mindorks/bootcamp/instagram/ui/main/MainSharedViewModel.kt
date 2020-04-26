@@ -11,8 +11,8 @@ import io.reactivex.disposables.CompositeDisposable
 class MainSharedViewModel(
     schedulerProvider: SchedulerProvider,
     compositeDisposable: CompositeDisposable,
-    networkHelper: NetworkHelper
-) : BaseViewModel(schedulerProvider, compositeDisposable, networkHelper) {
+    networkHelperImpl: NetworkHelper
+) : BaseViewModel(schedulerProvider, compositeDisposable, networkHelperImpl) {
 
     val homeRedirection = MutableLiveData<Event<Boolean>>()
     val logoutRedirection = MutableLiveData<Event<Boolean>>()

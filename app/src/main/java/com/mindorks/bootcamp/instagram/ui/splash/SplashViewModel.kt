@@ -12,9 +12,9 @@ import io.reactivex.disposables.CompositeDisposable
 class SplashViewModel(
     schedulerProvider: SchedulerProvider,
     compositeDisposable: CompositeDisposable,
-    networkHelper: NetworkHelper,
+    networkHelperImpl: NetworkHelper,
     val userRepository: UserRepository
-) : BaseViewModel(schedulerProvider, compositeDisposable, networkHelper) {
+) : BaseViewModel(schedulerProvider, compositeDisposable, networkHelperImpl) {
 
     // Event is used by the view model to tell the activity to launch another Activity
     // view model also provided the Bundle in the event that is needed for the Activity
