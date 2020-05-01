@@ -30,10 +30,8 @@ class SignUpViewModel(
 
     val loggingIn = MutableLiveData<Boolean>()
 
-    val emailValidation: LiveData<Resource<Int>> =
-        filterValidationField(Validator.Validation.Field.EMAIL)
-    val passwordValidation: LiveData<Resource<Int>> =
-        filterValidationField(Validator.Validation.Field.PASSWORD)
+    val emailValidation: LiveData<Resource<Int>> = filterValidationField(Validator.Validation.Field.EMAIL)
+    val passwordValidation: LiveData<Resource<Int>> = filterValidationField(Validator.Validation.Field.PASSWORD)
 
     private fun filterValidationField(field: Validator.Validation.Field): LiveData<Resource<Int>> =
         Transformations.map(validationResult) {
@@ -74,7 +72,8 @@ class SignUpViewModel(
             password != null &&
             name != null &&
             emailStatus == Status.SUCCESS &&
-            passwordStatus == Status.SUCCESS
+            passwordStatus == Status.SUCCESS &&
+            checkInternetConnectionWithMessage()
         ) {
             loggingIn.postValue(true)
             compositeDisposable.addAll(
@@ -84,7 +83,7 @@ class SignUpViewModel(
                         userRepository.saveCurrentUser(it)
                         loggingIn.postValue(false)
                         launchMain.postValue(Event(emptyMap()))
-                    },{
+                    }, {
                         handleNetworkError(it)
                         loggingIn.postValue(false)
                     })
