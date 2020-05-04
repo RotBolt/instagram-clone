@@ -15,7 +15,7 @@ class HomeViewModel(
     schedulerProvider: SchedulerProvider,
     compositeDisposable: CompositeDisposable,
     networkHelperImpl: NetworkHelper,
-    private val userRepository: UserRepository,
+    userRepository: UserRepository,
     private val postRepository: PostRepository,
     private val allPosts: ArrayList<Post>,
     private val paginator: PublishProcessor<Pair<String?, String?>>
