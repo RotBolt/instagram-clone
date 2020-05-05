@@ -31,7 +31,7 @@ class HomeViewModelTest {
     val rule = InstantTaskExecutorRule()
 
     @Mock
-    lateinit var networkHelper:NetworkHelperImpl
+    lateinit var networkHelper: NetworkHelperImpl
 
     @Mock
     lateinit var userRepository: UserRepository
@@ -40,20 +40,20 @@ class HomeViewModelTest {
     lateinit var postRepository: PostRepository
 
     @Mock
-    lateinit var postsObserver : Observer<Resource<List<Post>>>
+    lateinit var postsObserver: Observer<Resource<List<Post>>>
 
     @Mock
-    lateinit var refreshPostsObserver : Observer<Resource<List<Post>>>
+    lateinit var refreshPostsObserver: Observer<Resource<List<Post>>>
 
     @Mock
-    lateinit var loadingObserver : Observer<Boolean>
+    lateinit var loadingObserver: Observer<Boolean>
 
     lateinit var testScheduler: TestScheduler
 
     lateinit var homeViewModel: HomeViewModel
 
     @Before
-    fun setUp(){
+    fun setUp() {
 
         val user = User(
             "id",
@@ -87,7 +87,7 @@ class HomeViewModelTest {
     }
 
     @Test
-    fun givenUserLoggedIn_whenFetch_shouldLoadPosts(){
+    fun givenUserLoggedIn_whenFetch_shouldLoadPosts() {
         val user = User(
             "id",
             "haruka",
@@ -99,8 +99,9 @@ class HomeViewModelTest {
             .`when`(networkHelper)
             .isNetworkConnected()
 
-        val fakePostList = listOf<Post>(
-            Post("id1", "url1", 100, 100,
+        val fakePostList = listOf(
+            Post(
+                "id1", "url1", 100, 100,
                 Post.User("uid1", "uname1", null),
                 null, Date()
             ),
@@ -124,7 +125,7 @@ class HomeViewModelTest {
     }
 
     @Test
-    fun givenUserLoggedIn_onLoadMore_shouldLoadPosts(){
+    fun givenUserLoggedIn_onLoadMore_shouldLoadPosts() {
         val user = User(
             "id",
             "haruka",
@@ -132,20 +133,22 @@ class HomeViewModelTest {
             "accessToken"
         )
 
+        val millisInDay = 24 * 60 * 60 * 1000
 
         doReturn(true)
             .`when`(networkHelper)
             .isNetworkConnected()
 
-        val fakePostList = listOf<Post>(
-            Post("id1", "url1", 100, 100,
+        val fakePostList = mutableListOf(
+            Post(
+                "id1", "url1", 100, 100,
                 Post.User("uid1", "uname1", null),
                 null, Date()
             ),
             Post(
                 "id2", "url2", 100, 100,
                 Post.User("uid2", "uname2", null),
-                null, Date()
+                null, Date(System.currentTimeMillis() - millisInDay)
             )
         )
 
@@ -153,25 +156,107 @@ class HomeViewModelTest {
             .`when`(postRepository)
             .fetchHomePostList(null, null, user)
 
-        homeViewModel.loading.postValue(false)
+
+        homeViewModel.onCreate()
+
+        testScheduler.triggerActions()
+
+        verify(postsObserver).onChanged(Resource.success(fakePostList))
+
+        assert(homeViewModel.posts.value?.data == fakePostList)
+
+        val fakePostListMore = listOf(
+            Post(
+                "id3", "url3", 100, 100,
+                Post.User("uid3", "uname3", null),
+                null, Date()
+            ),
+            Post(
+                "id4", "url4", 100, 100,
+                Post.User("uid3", "uname4", null),
+                null, Date()
+            )
+        )
+
+
+        doReturn(Single.just(fakePostListMore))
+            .`when`(postRepository)
+            .fetchHomePostList("id1", "id2", user)
 
         homeViewModel.onLoadMore()
 
         testScheduler.triggerActions()
 
+        verify(postsObserver).onChanged(Resource.success(fakePostListMore))
+
+        assert(homeViewModel.posts.value?.data == fakePostListMore)
+    }
+
+
+    @Test
+    fun givenUserLoggedIn_whenNewPost_shouldNewPostAtTop() {
+        val user = User(
+            "id",
+            "haruka",
+            "haruka@pui.com",
+            "accessToken"
+        )
+
+        val millisInDay = 24 * 60 * 60 * 1000
+
+        doReturn(true)
+            .`when`(networkHelper)
+            .isNetworkConnected()
+
+        val fakePostList = mutableListOf(
+            Post(
+                "id1", "url1", 100, 100,
+                Post.User("uid1", "uname1", null),
+                null, Date()
+            ),
+            Post(
+                "id2", "url2", 100, 100,
+                Post.User("uid2", "uname2", null),
+                null, Date(System.currentTimeMillis() - millisInDay)
+            )
+        )
+
+        doReturn(Single.just(fakePostList))
+            .`when`(postRepository)
+            .fetchHomePostList(null, null, user)
+
+
+        homeViewModel.onCreate()
+
+        testScheduler.triggerActions()
+
         verify(postsObserver).onChanged(Resource.success(fakePostList))
+
+        assert(homeViewModel.posts.value?.data == fakePostList)
+
+        val newPost = Post(
+            "id5", "url5", 100, 100,
+            Post.User("uid5", "uname5", null),
+            null, Date()
+        )
+
+        homeViewModel.onNewPost(newPost)
+
+        fakePostList.add(0, newPost)
+        verify(refreshPostsObserver).onChanged(Resource.success(fakePostList))
+
+        assert(homeViewModel.posts.value?.data?.get(0) == newPost)
+        assert(homeViewModel.posts.value?.data == fakePostList)
     }
 
     @After
-    fun tearDown(){
+    fun tearDown() {
         homeViewModel.apply {
             posts.removeObserver(postsObserver)
             loading.removeObserver(loadingObserver)
             refreshPostList.removeObserver(refreshPostsObserver)
         }
     }
-
-
 
 
 }
