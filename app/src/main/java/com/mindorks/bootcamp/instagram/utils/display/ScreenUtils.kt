@@ -8,11 +8,11 @@ import androidx.core.content.ContextCompat
 import com.mindorks.bootcamp.instagram.R
 
 
-object ScreenUtils {
+object ScreenUtils : ScreenResourceProvider{
 
-    fun getScreenWidth() = Resources.getSystem().displayMetrics.widthPixels
+    override fun getScreenWidth() = Resources.getSystem().displayMetrics.widthPixels
 
-    fun getScreenHeight() = Resources.getSystem().displayMetrics.heightPixels
+    override fun getScreenHeight() = Resources.getSystem().displayMetrics.heightPixels
 
     fun setLightDisplayStatusBar(activity: Activity) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

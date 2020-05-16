@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
-import com.bumptech.glide.Glide
 import com.mindorks.bootcamp.instagram.R
 import com.mindorks.bootcamp.instagram.di.component.FragmentComponent
 import com.mindorks.bootcamp.instagram.ui.base.BaseFragment
@@ -14,7 +13,6 @@ import com.mindorks.bootcamp.instagram.utils.common.Event
 import com.mindorks.paracamera.Camera
 import kotlinx.android.synthetic.main.fragment_photo.*
 import java.io.FileNotFoundException
-import java.lang.Exception
 import javax.inject.Inject
 
 class PhotoFragment : BaseFragment<PhotoViewModel>() {

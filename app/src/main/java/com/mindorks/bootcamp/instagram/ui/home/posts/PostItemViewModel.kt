@@ -11,7 +11,7 @@ import com.mindorks.bootcamp.instagram.data.repository.UserRepository
 import com.mindorks.bootcamp.instagram.ui.base.BaseItemViewModel
 import com.mindorks.bootcamp.instagram.utils.common.Resource
 import com.mindorks.bootcamp.instagram.utils.common.TimeUtils
-import com.mindorks.bootcamp.instagram.utils.display.ScreenUtils
+import com.mindorks.bootcamp.instagram.utils.display.ScreenResourceProvider
 import com.mindorks.bootcamp.instagram.utils.log.Logger
 import com.mindorks.bootcamp.instagram.utils.network.NetworkHelper
 import com.mindorks.bootcamp.instagram.utils.rx.SchedulerProvider
@@ -23,7 +23,8 @@ class PostItemViewModel @Inject constructor(
     compositeDisposable: CompositeDisposable,
     networkHelperImpl: NetworkHelper,
     userRepository: UserRepository,
-    private val postRepository: PostRepository
+    private val postRepository: PostRepository,
+    screenResourceProvider: ScreenResourceProvider
 ) : BaseItemViewModel<Post>(schedulerProvider, compositeDisposable, networkHelperImpl) {
 
     companion object {
@@ -31,8 +32,8 @@ class PostItemViewModel @Inject constructor(
     }
 
     private val user = userRepository.getCurrentUser()!!
-    private val screenWidth = ScreenUtils.getScreenWidth()
-    private val screenHeight = ScreenUtils.getScreenHeight()
+    private val screenWidth = screenResourceProvider.getScreenWidth()
+    private val screenHeight = screenResourceProvider.getScreenHeight()
 
     private val headers = mapOf(
         Networking.HEADER_API_KEY to Networking.API_KEY,
@@ -49,7 +50,7 @@ class PostItemViewModel @Inject constructor(
     }
 
     val profileImage: LiveData<Image?> = Transformations.map(data) {
-        it.creator.profilePicUrl?.run { Image(this, headers) } ?: null
+        it.creator.profilePicUrl?.run { Image(this, headers) }
     }
 
     val postImageDetail: LiveData<Image> = Transformations.map(data) {

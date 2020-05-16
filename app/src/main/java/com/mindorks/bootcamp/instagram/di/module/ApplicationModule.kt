@@ -3,6 +3,7 @@ package com.mindorks.bootcamp.instagram.di.module
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
+import android.content.res.Resources
 import androidx.room.Room
 import com.mindorks.bootcamp.instagram.BuildConfig
 import com.mindorks.bootcamp.instagram.InstagramApplication
@@ -12,6 +13,7 @@ import com.mindorks.bootcamp.instagram.data.remote.Networking
 import com.mindorks.bootcamp.instagram.di.ApplicationContext
 import com.mindorks.bootcamp.instagram.di.TempDirectory
 import com.mindorks.bootcamp.instagram.utils.common.FileUtils
+import com.mindorks.bootcamp.instagram.utils.display.ScreenResourceProvider
 import com.mindorks.bootcamp.instagram.utils.network.NetworkHelper
 import com.mindorks.bootcamp.instagram.utils.network.NetworkHelperImpl
 import com.mindorks.bootcamp.instagram.utils.rx.RxSchedulerProvider
@@ -78,4 +80,14 @@ class ApplicationModule(private val application: InstagramApplication) {
     @Singleton
     @TempDirectory
     fun provideTempDirectory() = FileUtils.getDirectory(application, "temp")
+
+    @Provides
+    @Singleton
+    fun provideScreenResourceProvider() = object : ScreenResourceProvider {
+
+        override fun getScreenWidth() = Resources.getSystem().displayMetrics.widthPixels
+
+        override fun getScreenHeight() = Resources.getSystem().displayMetrics.heightPixels
+
+    }
 }

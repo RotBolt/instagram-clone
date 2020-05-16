@@ -10,6 +10,7 @@ import com.mindorks.bootcamp.instagram.data.repository.UserRepository
 import com.mindorks.bootcamp.instagram.di.ApplicationContext
 import com.mindorks.bootcamp.instagram.di.TempDirectory
 import com.mindorks.bootcamp.instagram.di.module.ApplicationModule
+import com.mindorks.bootcamp.instagram.utils.display.ScreenResourceProvider
 import com.mindorks.bootcamp.instagram.utils.network.NetworkHelper
 import com.mindorks.bootcamp.instagram.utils.rx.SchedulerProvider
 import dagger.Component
@@ -64,5 +65,7 @@ interface ApplicationComponent {
     fun getCompositeDisposable(): CompositeDisposable
 
     @TempDirectory
-    fun getTemporaryDirectory() : File
+    fun getTemporaryDirectory(): File
+
+    fun getScreenResourceProvider(): ScreenResourceProvider
 }

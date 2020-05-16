@@ -72,8 +72,8 @@ class LoginViewModelTest {
         val email = "test@pui.com"
         val password = "puipuipui"
         val user = User("id", "pui-man", email, "accessToken")
-        loginViewModel.emailField.postValue(email)
-        loginViewModel.passwordField.postValue(password)
+        loginViewModel.onEmailChanged(email)
+        loginViewModel.onPasswordChanged(password)
 
         doReturn(true)
             .`when`(networkHelperImpl)
@@ -101,8 +101,8 @@ class LoginViewModelTest {
         val email = "test@pui.com"
         val password = "puipuipui"
 
-        loginViewModel.emailField.postValue(email)
-        loginViewModel.passwordField.postValue(password)
+        loginViewModel.onEmailChanged(email)
+        loginViewModel.onPasswordChanged(password)
 
         doReturn(false)
             .`when`(networkHelperImpl)

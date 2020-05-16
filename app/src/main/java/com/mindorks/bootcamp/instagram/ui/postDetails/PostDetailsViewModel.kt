@@ -21,7 +21,7 @@ class PostDetailsViewModel(
     schedulerProvider: SchedulerProvider,
     compositeDisposable: CompositeDisposable,
     networkHelperImpl: NetworkHelper,
-    private val userRepository: UserRepository,
+    userRepository: UserRepository,
     private val postRepository: PostRepository
 ) : BaseViewModel(schedulerProvider, compositeDisposable, networkHelperImpl) {
 
