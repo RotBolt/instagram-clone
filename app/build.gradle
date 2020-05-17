@@ -6,6 +6,19 @@ apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'kotlin-kapt'
 
+apply plugin: 'jacoco'
+
+apply from: 'jacoco.gradle'
+
+jacoco {
+    toolVersion = "$jacoco_version"
+}
+
+// For roboelectric tests
+//tasks.withType(Test) {
+//    jacoco.includeNoLocationClasses = true
+//}
+
 android {
     // user the variables like compile_sdk_version to keep the dependencies same throughout the application
     compileSdkVersion rootProject.ext.compile_sdk_version
@@ -23,6 +36,7 @@ android {
     buildTypes {
         // Add this debug config to provide debug settings
         debug {
+            testCoverageEnabled = true
             buildConfigField("String", "BASE_URL", "\"https://api.projects.bootcamp.mindorks.com/batch/green/\"")
             buildConfigField("String", "API_KEY", "\"HBNA19QVVAPP\"")
         }
@@ -34,6 +48,17 @@ android {
         }
     }
 
+
+    testOptions {
+//        For Roboelectric tests
+//        execution 'ANDROIDX_TEST_ORCHESTRATOR'
+        animationsDisabled true
+
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
+
     compileOptions{
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -41,10 +66,6 @@ android {
 
     kotlinOptions{
         jvmTarget = JavaVersion.VERSION_1_8.toString()
-    }
-
-    testOptions {
-        unitTests.returnDefaultValues = true
     }
 }
 
@@ -132,4 +153,7 @@ dependencies {
     androidTestImplementation "org.mockito:mockito-core:$mockito_version"
     debugImplementation "androidx.fragment:fragment-testing:$fragment_version"
     kaptAndroidTest "com.google.dagger:dagger-compiler:$dagger_version"
+
+//    For roboelectric tests
+//    androidTestUtil 'androidx.test:orchestrator:1.1.0-beta01'
 }

@@ -7,15 +7,21 @@ import com.mindorks.paracamera.Utils
 import java.io.*
 
 
-object FileUtils {
+object FileUtils : FileHelper {
+    override fun makeFile(path: String): File? = File(path)
 
-    fun getDirectory(context: Context, dirName: String): File {
+    override fun getDirectory(context: Context, dirName: String): File {
         val file = File(context.filesDir.path + File.separator + dirName)
         if (!file.exists()) file.mkdir()
         return file
     }
 
-    fun saveInputStreamToFile(input: InputStream, directory: File, imageName: String, height: Int): File? {
+    override fun saveInputStreamToFile(
+        input: InputStream,
+        directory: File,
+        imageName: String,
+        height: Int
+    ): File? {
         val temp = File(directory.path + File.separator + "temp\$file\$for\$processing")
         input.use { input ->
             val final = File(directory.path + File.separator + imageName + ".${Camera.IMAGE_JPG}")
@@ -39,7 +45,7 @@ object FileUtils {
         }
     }
 
-    fun getImageSize(file: File): Pair<Int, Int>? {
+    override fun getImageSize(file: File): Pair<Int, Int>? {
         return try {
             // Decode image size
             val o = BitmapFactory.Options()

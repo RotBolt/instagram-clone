@@ -1,10 +1,12 @@
 package com.mindorks.bootcamp.instagram.data.repository
 
+import com.mindorks.bootcamp.instagram.data.model.Post
 import com.mindorks.bootcamp.instagram.data.model.User
 import com.mindorks.bootcamp.instagram.data.remote.NetworkService
 import com.mindorks.bootcamp.instagram.data.remote.Networking
 import com.mindorks.bootcamp.instagram.data.remote.response.PostListResponse
 import io.reactivex.Single
+import io.reactivex.observers.TestObserver
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -46,6 +48,11 @@ class PostRepositoryTest {
             )
 
         val data = postRepository.fetchHomePostList("firstPostId", "lastPostId", user)
+
+        val testObserver = TestObserver<List<Post>>()
+        data.subscribe(testObserver)
+
+        testObserver.assertValue { it.isEmpty() }
 
         verify(networkSerice).doHomePostListCall(
             "firstPostId",
