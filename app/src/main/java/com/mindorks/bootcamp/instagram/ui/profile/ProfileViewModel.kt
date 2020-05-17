@@ -40,7 +40,7 @@ class ProfileViewModel(
 
     val userName: LiveData<String> = Transformations.map(userInfo) { it.name }
     val tagLine: LiveData<String> = Transformations.map(userInfo) {
-        it?.tagline ?: "No Bio Set"
+        it.tagline ?: "No Bio Set"
     }
     val profilePic: LiveData<Image?> = Transformations.map(userInfo) {
         it.profilePicUrl?.run {
