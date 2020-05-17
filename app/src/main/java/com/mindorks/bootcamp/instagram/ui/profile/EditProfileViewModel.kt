@@ -6,7 +6,7 @@ import com.mindorks.bootcamp.instagram.data.repository.PhotoRepository
 import com.mindorks.bootcamp.instagram.data.repository.UserRepository
 import com.mindorks.bootcamp.instagram.ui.base.BaseViewModel
 import com.mindorks.bootcamp.instagram.utils.common.Event
-import com.mindorks.bootcamp.instagram.utils.common.FileUtils
+import com.mindorks.bootcamp.instagram.utils.common.FileHelper
 import com.mindorks.bootcamp.instagram.utils.common.Resource
 import com.mindorks.bootcamp.instagram.utils.network.NetworkHelper
 import com.mindorks.bootcamp.instagram.utils.rx.SchedulerProvider
@@ -21,7 +21,8 @@ class EditProfileViewModel(
     networkHelperImpl: NetworkHelper,
     private val userRepository: UserRepository,
     private val photoRepository: PhotoRepository,
-    private val directory: File
+    private val directory: File,
+    private val fileHelper: FileHelper
 ) : BaseViewModel(schedulerProvider, compositeDisposable, networkHelperImpl) {
 
     private val user = userRepository.getCurrentUser()!!
@@ -75,7 +76,7 @@ class EditProfileViewModel(
                             messageString.postValue(Resource.error(it.message))
                         })
                 )
-            } else{
+            } else {
                 nameValidator.postValue(true to "validated")
                 loading.postValue(true)
                 compositeDisposable.add(
@@ -106,7 +107,7 @@ class EditProfileViewModel(
         loading.postValue(true)
         compositeDisposable.add(
             Single.fromCallable {
-                FileUtils.saveInputStreamToFile(inputStream, directory, "profile_img", 100)
+                fileHelper.saveInputStreamToFile(inputStream, directory, "profile_img", 100)
             }
                 .subscribeOn(schedulerProvider.io())
                 .subscribe({
