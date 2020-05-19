@@ -6,6 +6,7 @@ import com.mindorks.bootcamp.instagram.data.model.Post
 import com.mindorks.bootcamp.instagram.data.model.User
 import com.mindorks.bootcamp.instagram.data.repository.PostRepository
 import com.mindorks.bootcamp.instagram.data.repository.UserRepository
+import com.mindorks.bootcamp.instagram.utils.TestHelper
 import com.mindorks.bootcamp.instagram.utils.common.Resource
 import com.mindorks.bootcamp.instagram.utils.network.NetworkHelperImpl
 import com.mindorks.bootcamp.instagram.utils.rx.TestSchedulerProvider
@@ -52,15 +53,12 @@ class HomeViewModelTest {
 
     lateinit var homeViewModel: HomeViewModel
 
+    lateinit var user :User
+
     @Before
     fun setUp() {
 
-        val user = User(
-            "id",
-            "haruka",
-            "haruka@pui.com",
-            "accessToken"
-        )
+        user = TestHelper.getTestUser()
 
         doReturn(user)
             .`when`(userRepository)
@@ -88,12 +86,6 @@ class HomeViewModelTest {
 
     @Test
     fun givenUserLoggedIn_whenFetch_shouldLoadPosts() {
-        val user = User(
-            "id",
-            "haruka",
-            "haruka@pui.com",
-            "accessToken"
-        )
 
         doReturn(true)
             .`when`(networkHelper)
@@ -126,12 +118,6 @@ class HomeViewModelTest {
 
     @Test
     fun givenUserLoggedIn_onLoadMore_shouldLoadPosts() {
-        val user = User(
-            "id",
-            "haruka",
-            "haruka@pui.com",
-            "accessToken"
-        )
 
         val millisInDay = 24 * 60 * 60 * 1000
 
@@ -195,12 +181,6 @@ class HomeViewModelTest {
 
     @Test
     fun givenUserLoggedIn_whenNewPost_shouldNewPostAtTop() {
-        val user = User(
-            "id",
-            "haruka",
-            "haruka@pui.com",
-            "accessToken"
-        )
 
         val millisInDay = 24 * 60 * 60 * 1000
 

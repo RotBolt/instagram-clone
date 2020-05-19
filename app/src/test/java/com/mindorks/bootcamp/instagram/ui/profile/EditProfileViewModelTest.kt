@@ -7,6 +7,7 @@ import com.mindorks.bootcamp.instagram.data.remote.request.UpdateInfoRequest
 import com.mindorks.bootcamp.instagram.data.remote.response.GeneralResponse
 import com.mindorks.bootcamp.instagram.data.repository.PhotoRepository
 import com.mindorks.bootcamp.instagram.data.repository.UserRepository
+import com.mindorks.bootcamp.instagram.utils.TestHelper
 import com.mindorks.bootcamp.instagram.utils.common.Event
 import com.mindorks.bootcamp.instagram.utils.common.FileHelper
 import com.mindorks.bootcamp.instagram.utils.network.NetworkHelper
@@ -78,13 +79,7 @@ class EditProfileViewModelTest {
 
     @Before
     fun setup() {
-        user = User(
-            "id",
-            "Haruka",
-            "haruka@pui.com",
-            "access-token",
-            "https://cloudStorage.api.com/hadagdhjh/pui.jpeg"
-        )
+        user = TestHelper.getTestUser()
 
         doReturn(user)
             .`when`(userRepository)

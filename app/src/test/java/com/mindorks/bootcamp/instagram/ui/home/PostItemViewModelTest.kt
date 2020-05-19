@@ -10,6 +10,7 @@ import com.mindorks.bootcamp.instagram.data.remote.Networking
 import com.mindorks.bootcamp.instagram.data.repository.PostRepository
 import com.mindorks.bootcamp.instagram.data.repository.UserRepository
 import com.mindorks.bootcamp.instagram.ui.home.posts.PostItemViewModel
+import com.mindorks.bootcamp.instagram.utils.TestHelper
 import com.mindorks.bootcamp.instagram.utils.common.Resource
 import com.mindorks.bootcamp.instagram.utils.common.TimeUtils
 import com.mindorks.bootcamp.instagram.utils.display.ScreenResourceProvider
@@ -81,14 +82,7 @@ class PostItemViewModelTest {
     fun setup() {
         Networking.API_KEY = "fake_api_key"
 
-        user = User(
-            "userId-h1",
-            "Haruka",
-            "haruka@pui.com",
-            "accessToken",
-            "https://sample.url.com/829288390/puipic.jpeg"
-        )
-
+        user = TestHelper.getTestUser()
 
         doReturn(user)
             .`when`(userRepository)
@@ -185,9 +179,9 @@ class PostItemViewModelTest {
     fun givenPostLiked_onLikeCall_shouldUnlikePost(){
 
         val currentUser =  Post.User(
-            "userId-h1",
-            "Haruka",
-            "https://sample.url.com/829288390/puipic.jpeg"
+            user.id,
+            user.name,
+            user.profilePicUrl
         )
         val fakePost = Post(
             "id",
