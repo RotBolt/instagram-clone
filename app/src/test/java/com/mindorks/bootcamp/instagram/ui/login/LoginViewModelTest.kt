@@ -50,6 +50,7 @@ class LoginViewModelTest {
 
     @Before
     fun setUp() {
+        // did not mock, as no need to behaviour change
         val compositeDisposable = CompositeDisposable()
         testScheduler = TestScheduler()
         val testSchedulerProvider = TestSchedulerProvider(testScheduler)

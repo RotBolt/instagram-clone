@@ -18,6 +18,7 @@ import com.mindorks.bootcamp.instagram.ui.profile.EditProfileViewModel
 import com.mindorks.bootcamp.instagram.ui.splash.SplashViewModel
 import com.mindorks.bootcamp.instagram.utils.ViewModelProviderFactory
 import com.mindorks.bootcamp.instagram.utils.common.FileHelper
+import com.mindorks.bootcamp.instagram.utils.display.ScreenResourceProvider
 import com.mindorks.bootcamp.instagram.utils.network.NetworkHelper
 import com.mindorks.bootcamp.instagram.utils.rx.SchedulerProvider
 import com.mindorks.paracamera.Camera
@@ -128,7 +129,8 @@ class ActivityModule(private val activity: BaseActivity<*>) {
         compositeDisposable: CompositeDisposable,
         networkHelperImpl: NetworkHelper,
         userRepository: UserRepository,
-        postRepository: PostRepository
+        postRepository: PostRepository,
+        screenResourceProvider: ScreenResourceProvider
     ): PostDetailsViewModel = ViewModelProviders.of(
         activity, ViewModelProviderFactory(PostDetailsViewModel::class) {
             PostDetailsViewModel(
@@ -136,7 +138,8 @@ class ActivityModule(private val activity: BaseActivity<*>) {
                 compositeDisposable,
                 networkHelperImpl,
                 userRepository,
-                postRepository
+                postRepository,
+                screenResourceProvider
             )
         }).get(PostDetailsViewModel::class.java)
 
