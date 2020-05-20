@@ -2,6 +2,11 @@
 
 ![Android Pull Request & Master CI](https://github.com/RotBolt/instagram-clone/workflows/Android%20Pull%20Request%20&%20Master%20CI/badge.svg)
 
+
+[![codecov](https://codecov.io/gh/RotBolt/instagram-clone/branch/master/graph/badge.svg?token=RB9N6JTWS2)](https://codecov.io/gh/RotBolt/instagram-clone)
+
+
+
 This is an Instagram-clone following MVVM architecture
 
 ## ScreenShots
