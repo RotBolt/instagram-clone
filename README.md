@@ -1,5 +1,7 @@
 # instagram-clone
 
+![Android Pull Request & Master CI](https://github.com/RotBolt/instagram-clone/workflows/Android%20Pull%20Request%20&%20Master%20CI/badge.svg)
+
 This is an Instagram-clone following MVVM architecture
 
 ## ScreenShots
