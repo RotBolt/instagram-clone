@@ -17,6 +17,8 @@ import com.mindorks.bootcamp.instagram.ui.postDetails.PostDetailsViewModel
 import com.mindorks.bootcamp.instagram.ui.profile.EditProfileViewModel
 import com.mindorks.bootcamp.instagram.ui.splash.SplashViewModel
 import com.mindorks.bootcamp.instagram.utils.ViewModelProviderFactory
+import com.mindorks.bootcamp.instagram.utils.common.FileHelper
+import com.mindorks.bootcamp.instagram.utils.display.ScreenResourceProvider
 import com.mindorks.bootcamp.instagram.utils.network.NetworkHelper
 import com.mindorks.bootcamp.instagram.utils.rx.SchedulerProvider
 import com.mindorks.paracamera.Camera
@@ -44,7 +46,12 @@ class ActivityModule(private val activity: BaseActivity<*>) {
         userRepository: UserRepository
     ): SplashViewModel = ViewModelProviders.of(
         activity, ViewModelProviderFactory(SplashViewModel::class) {
-            SplashViewModel(schedulerProvider, compositeDisposable, networkHelperImpl, userRepository)
+            SplashViewModel(
+                schedulerProvider,
+                compositeDisposable,
+                networkHelperImpl,
+                userRepository
+            )
             //this lambda creates and return SplashViewModel
         }).get(SplashViewModel::class.java)
 
@@ -56,7 +63,12 @@ class ActivityModule(private val activity: BaseActivity<*>) {
         dummyRepository: DummyRepository
     ): DummyViewModel = ViewModelProviders.of(
         activity, ViewModelProviderFactory(DummyViewModel::class) {
-            DummyViewModel(schedulerProvider, compositeDisposable, networkHelperImpl, dummyRepository)
+            DummyViewModel(
+                schedulerProvider,
+                compositeDisposable,
+                networkHelperImpl,
+                dummyRepository
+            )
         }).get(DummyViewModel::class.java)
 
     @Provides
@@ -67,7 +79,12 @@ class ActivityModule(private val activity: BaseActivity<*>) {
         userRepository: UserRepository
     ): LoginViewModel = ViewModelProviders.of(
         activity, ViewModelProviderFactory(LoginViewModel::class) {
-            LoginViewModel(schedulerProvider, compositeDisposable, networkHelperImpl, userRepository)
+            LoginViewModel(
+                schedulerProvider,
+                compositeDisposable,
+                networkHelperImpl,
+                userRepository
+            )
         }).get(LoginViewModel::class.java)
 
     @Provides
@@ -78,7 +95,12 @@ class ActivityModule(private val activity: BaseActivity<*>) {
         userRepository: UserRepository
     ): SignUpViewModel = ViewModelProviders.of(
         activity, ViewModelProviderFactory(SignUpViewModel::class) {
-            SignUpViewModel(schedulerProvider, compositeDisposable, networkHelperImpl, userRepository)
+            SignUpViewModel(
+                schedulerProvider,
+                compositeDisposable,
+                networkHelperImpl,
+                userRepository
+            )
         }).get(SignUpViewModel::class.java)
 
     @Provides
@@ -107,7 +129,8 @@ class ActivityModule(private val activity: BaseActivity<*>) {
         compositeDisposable: CompositeDisposable,
         networkHelperImpl: NetworkHelper,
         userRepository: UserRepository,
-        postRepository: PostRepository
+        postRepository: PostRepository,
+        screenResourceProvider: ScreenResourceProvider
     ): PostDetailsViewModel = ViewModelProviders.of(
         activity, ViewModelProviderFactory(PostDetailsViewModel::class) {
             PostDetailsViewModel(
@@ -115,7 +138,8 @@ class ActivityModule(private val activity: BaseActivity<*>) {
                 compositeDisposable,
                 networkHelperImpl,
                 userRepository,
-                postRepository
+                postRepository,
+                screenResourceProvider
             )
         }).get(PostDetailsViewModel::class.java)
 
@@ -126,7 +150,8 @@ class ActivityModule(private val activity: BaseActivity<*>) {
         networkHelperImpl: NetworkHelper,
         userRepository: UserRepository,
         photoRepository: PhotoRepository,
-        @TempDirectory directory: File
+        @TempDirectory directory: File,
+        fileHelper: FileHelper
     ): EditProfileViewModel = ViewModelProviders.of(
         activity, ViewModelProviderFactory(EditProfileViewModel::class) {
             EditProfileViewModel(
@@ -135,7 +160,8 @@ class ActivityModule(private val activity: BaseActivity<*>) {
                 networkHelperImpl,
                 userRepository,
                 photoRepository,
-                directory
+                directory,
+                fileHelper
             )
         }).get(EditProfileViewModel::class.java)
 

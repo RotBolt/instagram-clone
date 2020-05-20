@@ -18,6 +18,7 @@ import com.mindorks.bootcamp.instagram.ui.photo.PhotoViewModel
 import com.mindorks.bootcamp.instagram.ui.profile.ProfileViewModel
 import com.mindorks.bootcamp.instagram.ui.profile.myPosts.MyPostsAdapter
 import com.mindorks.bootcamp.instagram.utils.ViewModelProviderFactory
+import com.mindorks.bootcamp.instagram.utils.common.FileHelper
 import com.mindorks.bootcamp.instagram.utils.network.NetworkHelper
 import com.mindorks.bootcamp.instagram.utils.rx.SchedulerProvider
 import com.mindorks.paracamera.Camera
@@ -87,12 +88,13 @@ class FragmentModule(private val fragment: BaseFragment<*>) {
         photoRepository: PhotoRepository,
         postRepository: PostRepository,
         networkHelperImpl: NetworkHelper,
-        @TempDirectory directory: File
+        @TempDirectory directory: File,
+        fileHelper: FileHelper
     ): PhotoViewModel = ViewModelProviders.of(
         fragment, ViewModelProviderFactory(PhotoViewModel::class) {
             PhotoViewModel(
                 schedulerProvider, compositeDisposable, networkHelperImpl,
-                userRepository, postRepository, photoRepository, directory
+                userRepository, postRepository, photoRepository, directory, fileHelper
             )
         }).get(PhotoViewModel::class.java)
 

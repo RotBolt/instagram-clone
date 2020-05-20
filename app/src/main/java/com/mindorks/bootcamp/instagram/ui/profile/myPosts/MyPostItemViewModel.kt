@@ -6,7 +6,6 @@ import androidx.lifecycle.Transformations
 import com.mindorks.bootcamp.instagram.data.model.Image
 import com.mindorks.bootcamp.instagram.data.remote.Networking
 import com.mindorks.bootcamp.instagram.data.remote.response.MyPostListResponse
-import com.mindorks.bootcamp.instagram.data.repository.PostRepository
 import com.mindorks.bootcamp.instagram.data.repository.UserRepository
 import com.mindorks.bootcamp.instagram.ui.base.BaseItemViewModel
 import com.mindorks.bootcamp.instagram.utils.common.Event
@@ -19,8 +18,7 @@ class MyPostItemViewModel @Inject constructor(
     schedulerProvider: SchedulerProvider,
     compositeDisposable: CompositeDisposable,
     networkHelperImpl: NetworkHelper,
-    private val userRepository: UserRepository,
-    private val postRepository: PostRepository
+    userRepository: UserRepository
 ) : BaseItemViewModel<MyPostListResponse.MyPost>(
     schedulerProvider,
     compositeDisposable,

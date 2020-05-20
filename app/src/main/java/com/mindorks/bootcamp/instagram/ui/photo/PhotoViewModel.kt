@@ -9,7 +9,7 @@ import com.mindorks.bootcamp.instagram.data.repository.PostRepository
 import com.mindorks.bootcamp.instagram.data.repository.UserRepository
 import com.mindorks.bootcamp.instagram.ui.base.BaseViewModel
 import com.mindorks.bootcamp.instagram.utils.common.Event
-import com.mindorks.bootcamp.instagram.utils.common.FileUtils
+import com.mindorks.bootcamp.instagram.utils.common.FileHelper
 import com.mindorks.bootcamp.instagram.utils.common.Resource
 import com.mindorks.bootcamp.instagram.utils.network.NetworkHelper
 import com.mindorks.bootcamp.instagram.utils.rx.SchedulerProvider
@@ -22,10 +22,11 @@ class PhotoViewModel(
     schedulerProvider: SchedulerProvider,
     compositeDisposable: CompositeDisposable,
     networkHelperImpl: NetworkHelper,
-    private val userRepository: UserRepository,
+    userRepository: UserRepository,
     private val postRepository: PostRepository,
     private val photoRepository: PhotoRepository,
-    private val directory: File
+    private val directory: File,
+    private val fileHelper: FileHelper
 ) : BaseViewModel(schedulerProvider, compositeDisposable, networkHelperImpl) {
 
 
@@ -43,7 +44,7 @@ class PhotoViewModel(
             Single.fromCallable {
                 // saves inputStream from picked image into temp file which uses
                 // which  uses decodeStream to save the scaled image
-                FileUtils.saveInputStreamToFile(
+                fileHelper.saveInputStreamToFile(
                     inputStream, directory, "gallery_img_temp", 500
                 )
             }
@@ -51,7 +52,7 @@ class PhotoViewModel(
                 .subscribe(
                     {
                         if (it != null) {
-                            FileUtils.getImageSize(it)?.run {
+                            fileHelper.getImageSize(it)?.run {
                                 uploadPhotoAndCreatePost(it, this)
                             }
                         } else {
@@ -75,8 +76,8 @@ class PhotoViewModel(
                 .subscribeOn(schedulerProvider.io())
                 .subscribe(
                     {
-                        File(it).apply {
-                            FileUtils.getImageSize(this)?.let { size ->
+                        fileHelper.makeFile(it)?.apply {
+                            fileHelper.getImageSize(this)?.let { size ->
                                 uploadPhotoAndCreatePost(this, size)
                             } ?: loading.postValue(false)
                         }
@@ -94,13 +95,13 @@ class PhotoViewModel(
         compositeDisposable.add(
             photoRepository.uploadImage(imageFile, user)
                 .flatMap {
-                    postRepository.createPost(it,imageSize.first, imageSize.second, user)
+                    postRepository.createPost(it, imageSize.first, imageSize.second, user)
                 }
                 .subscribeOn(schedulerProvider.io())
                 .subscribe({
                     loading.postValue(false)
                     post.postValue(Event(it))
-                },{
+                }, {
                     loading.postValue(false)
                     handleNetworkError(it)
                 })

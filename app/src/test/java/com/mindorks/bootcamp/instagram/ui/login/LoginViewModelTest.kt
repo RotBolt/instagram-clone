@@ -50,6 +50,7 @@ class LoginViewModelTest {
 
     @Before
     fun setUp() {
+        // did not mock, as no need to behaviour change
         val compositeDisposable = CompositeDisposable()
         testScheduler = TestScheduler()
         val testSchedulerProvider = TestSchedulerProvider(testScheduler)
@@ -72,8 +73,8 @@ class LoginViewModelTest {
         val email = "test@pui.com"
         val password = "puipuipui"
         val user = User("id", "pui-man", email, "accessToken")
-        loginViewModel.emailField.postValue(email)
-        loginViewModel.passwordField.postValue(password)
+        loginViewModel.onEmailChanged(email)
+        loginViewModel.onPasswordChanged(password)
 
         doReturn(true)
             .`when`(networkHelperImpl)
@@ -101,8 +102,8 @@ class LoginViewModelTest {
         val email = "test@pui.com"
         val password = "puipuipui"
 
-        loginViewModel.emailField.postValue(email)
-        loginViewModel.passwordField.postValue(password)
+        loginViewModel.onEmailChanged(email)
+        loginViewModel.onPasswordChanged(password)
 
         doReturn(false)
             .`when`(networkHelperImpl)

@@ -12,7 +12,7 @@ import com.mindorks.bootcamp.instagram.data.repository.UserRepository
 import com.mindorks.bootcamp.instagram.ui.base.BaseViewModel
 import com.mindorks.bootcamp.instagram.utils.common.Resource
 import com.mindorks.bootcamp.instagram.utils.common.TimeUtils
-import com.mindorks.bootcamp.instagram.utils.display.ScreenUtils
+import com.mindorks.bootcamp.instagram.utils.display.ScreenResourceProvider
 import com.mindorks.bootcamp.instagram.utils.network.NetworkHelper
 import com.mindorks.bootcamp.instagram.utils.rx.SchedulerProvider
 import io.reactivex.disposables.CompositeDisposable
@@ -21,16 +21,17 @@ class PostDetailsViewModel(
     schedulerProvider: SchedulerProvider,
     compositeDisposable: CompositeDisposable,
     networkHelperImpl: NetworkHelper,
-    private val userRepository: UserRepository,
-    private val postRepository: PostRepository
+    userRepository: UserRepository,
+    private val postRepository: PostRepository,
+    screenResourceProvider: ScreenResourceProvider
 ) : BaseViewModel(schedulerProvider, compositeDisposable, networkHelperImpl) {
 
     val postDetail = MutableLiveData<Post>()
     val loading = MutableLiveData<Boolean>()
 
     private val user = userRepository.getCurrentUser()!!
-    private val screenWidth = ScreenUtils.getScreenWidth()
-    private val screenHeight = ScreenUtils.getScreenHeight()
+    private val screenWidth = screenResourceProvider.getScreenWidth()
+    private val screenHeight = screenResourceProvider.getScreenHeight()
 
     private val headers = mapOf(
         Networking.HEADER_API_KEY to Networking.API_KEY,

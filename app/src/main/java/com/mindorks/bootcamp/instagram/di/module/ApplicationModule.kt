@@ -11,7 +11,10 @@ import com.mindorks.bootcamp.instagram.data.remote.NetworkService
 import com.mindorks.bootcamp.instagram.data.remote.Networking
 import com.mindorks.bootcamp.instagram.di.ApplicationContext
 import com.mindorks.bootcamp.instagram.di.TempDirectory
+import com.mindorks.bootcamp.instagram.utils.common.FileHelper
 import com.mindorks.bootcamp.instagram.utils.common.FileUtils
+import com.mindorks.bootcamp.instagram.utils.display.ScreenResourceProvider
+import com.mindorks.bootcamp.instagram.utils.display.ScreenUtils
 import com.mindorks.bootcamp.instagram.utils.network.NetworkHelper
 import com.mindorks.bootcamp.instagram.utils.network.NetworkHelperImpl
 import com.mindorks.bootcamp.instagram.utils.rx.RxSchedulerProvider
@@ -78,4 +81,12 @@ class ApplicationModule(private val application: InstagramApplication) {
     @Singleton
     @TempDirectory
     fun provideTempDirectory() = FileUtils.getDirectory(application, "temp")
+
+    @Provides
+    @Singleton
+    fun provideScreenResourceProvider() : ScreenResourceProvider = ScreenUtils
+
+    @Provides
+    @Singleton
+    fun provideFileHelper(): FileHelper = FileUtils
 }
