@@ -31,7 +31,18 @@ class FakeNetworkService : NetworkService {
         signUpRequest: SignUpRequest,
         apiKey: String
     ): Single<SignUpResponse> {
-        TODO("Not yet implemented")
+        return Single.just(
+            SignUpResponse(
+                "success",
+                200,
+                "message",
+                "accessToken",
+                "refreshToken",
+                "userId",
+                "userName",
+                "userEmail"
+            )
+        )
     }
 
     override fun doHomePostListCall(
@@ -99,7 +110,19 @@ class FakeNetworkService : NetworkService {
         accessToken: String,
         apiKey: String
     ): Single<UserInfoResponse> {
-        TODO("Not yet implemented")
+        return Single.just(
+            UserInfoResponse(
+                "success",
+                200,
+                "message",
+                UserInfoResponse.UserInfo(
+                    "id",
+                    "haruka",
+                    null,
+                    "Pui pui"
+                )
+            )
+        )
     }
 
     override fun doLogOutCall(
@@ -107,7 +130,12 @@ class FakeNetworkService : NetworkService {
         accessToken: String,
         apiKey: String
     ): Single<GeneralResponse> {
-        TODO("Not yet implemented")
+        return Single.just(
+            GeneralResponse(
+                "success",
+                "message"
+            )
+        )
     }
 
     override fun doFetchMyPostsCall(
@@ -115,7 +143,29 @@ class FakeNetworkService : NetworkService {
         accessToken: String,
         apiKey: String
     ): Single<MyPostListResponse> {
-        TODO("Not yet implemented")
+       return Single.just(
+            MyPostListResponse(
+                "success",
+                200,
+                "message",
+                listOf(
+                    MyPostListResponse.MyPost(
+                        "id1",
+                        "https://cloudStorage.api.com/dhek/pui.jpeg",
+                        300,
+                        400,
+                        Date()
+                    ),
+                    MyPostListResponse.MyPost(
+                        "id2",
+                        "https://cloudStorage.api.com/dhek/pui7.jpeg",
+                        300,
+                        400,
+                        Date()
+                    )
+                )
+            )
+        )
     }
 
     override fun doUpdateUserInfoCall(
